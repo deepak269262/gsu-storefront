@@ -1,0 +1,7 @@
+mountpoints:
+  /:
+    url: https://content.da.live/deepak269262/deepak269262/
+    type: markup
+
+folders:
+  /products/: /products/default
