@@ -173,7 +173,7 @@ if (IS_UE) {
   await import(`${window.hlx.codeBasePath}/scripts/ue.js`).then(({ default: ue }) => ue());
 }
 
-loadPage();
+if (!window.hlx.suppressLoadPage) loadPage(document);
 
 (async function loadDa() {
   if (!IS_DA) return;
