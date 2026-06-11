@@ -53,6 +53,12 @@
     ]
   },
   {
+    "id": "cards-feature",
+    "components": [
+      "cards-feature-card"
+    ]
+  },
+  {
     "id": "cards",
     "components": [
       "card"
@@ -62,6 +68,23 @@
     "id": "carousel",
     "components": [
       "carousel-item"
+    ]
+  },
+  {
+    "id": "columns-feature",
+    "components": [
+      "columns-feature-row"
+    ]
+  },
+  {
+    "id": "columns-feature-row",
+    "components": []
+  },
+  {
+    "id": "columns-feature-cell",
+    "components": [
+      "text",
+      "image"
     ]
   },
   {
@@ -79,6 +102,12 @@
     "components": [
       "text",
       "image"
+    ]
+  },
+  {
+    "id": "hero-banner",
+    "components": [
+      "hero-banner-slide"
     ]
   }
 ]

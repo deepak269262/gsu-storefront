@@ -185,6 +185,32 @@
     ]
   },
   {
+    "id": "cards-feature-card",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Image Alt",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "card",
     "fields": [
       {
@@ -231,6 +257,22 @@
         "name": "text",
         "label": "Text",
         "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "columns-feature",
+    "fields": [
+      {
+        "component": "number",
+        "valueType": "number",
+        "name": "columns",
+        "label": "Number of Columns",
+        "value": 2,
+        "validation": {
+          "numberMin": 1,
+          "numberMax": 6
+        }
       }
     ]
   },
@@ -423,6 +465,50 @@
         "component": "text",
         "name": "fragmentUrlText",
         "label": "Fragment URL Text"
+      }
+    ]
+  },
+  {
+    "id": "hero-banner",
+    "fields": []
+  },
+  {
+    "id": "hero-banner-slide",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Background Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Image Alt",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "eyebrow",
+        "label": "Eyebrow",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "headline",
+        "label": "Headline",
+        "value": ""
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "CTAs & Terms",
+        "valueType": "string"
       }
     ]
   },

@@ -533,4 +533,46 @@ export default async function decorate(block) {
     () => !isDesktop.matches && toggleMenu(nav, navSections, false),
   );
   renderAuthDropdown(navTools);
+
+  decorateOfferBar(nav);
+  decorateAudienceToggle(nav);
+}
+
+/**
+ * Makes the GS promo/offer bar dismissible if the nav fragment provides one.
+ * Looks for an authored element flagged with .nav-offer-bar (or adds the class
+ * to the first section when authored with a leading "offer" marker).
+ * @param {Element} nav The decorated nav element
+ */
+function decorateOfferBar(nav) {
+  const offerBar = nav.parentElement.querySelector('.nav-offer-bar')
+    || document.querySelector('header .nav-offer-bar');
+  if (!offerBar || offerBar.querySelector('.nav-offer-dismiss')) return;
+
+  const dismiss = document.createElement('button');
+  dismiss.type = 'button';
+  dismiss.className = 'nav-offer-dismiss';
+  dismiss.setAttribute('aria-label', 'Dismiss offer');
+  dismiss.addEventListener('click', () => {
+    offerBar.setAttribute('hidden', '');
+  });
+  offerBar.append(dismiss);
+}
+
+/**
+ * Wires the For Everyone / For Leaders audience toggle if authored.
+ * Buttons toggle aria-pressed; links with hrefs are left to navigate.
+ * @param {Element} nav The decorated nav element
+ */
+function decorateAudienceToggle(nav) {
+  const toggle = nav.querySelector('.nav-audience-toggle');
+  if (!toggle) return;
+
+  const buttons = [...toggle.querySelectorAll('button')];
+  buttons.forEach((btn) => {
+    btn.classList.add('nav-audience-option');
+    btn.addEventListener('click', () => {
+      buttons.forEach((b) => b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'));
+    });
+  });
 }

@@ -1,13 +1,13 @@
 footer {
-    background-color: var(--color-neutral-100);
-    font: var(--type-body-2-default-font);
-    letter-spacing: var(--type-body-2-default-letter-spacing);
+    background-color: var(--gs-color-forest-green);
+    color: var(--gs-color-white);
+    font: var(--gs-type-body-medium);
 }
 
 footer .footer > div {
     margin: auto;
     max-width: 1200px;
-    padding: 40px 24px 24px;
+    padding: var(--gs-spacing-64) var(--gs-spacing-24) var(--gs-spacing-24);
 }
 
 footer .footer p {
@@ -66,8 +66,116 @@ footer .footer p {
     margin-bottom: var(--spacing-small);
 }
 
+/* ==========================================================================
+   Girl Scouts footer branding
+   Forest-green theme over the existing fragment-driven footer structure.
+   Additive styles placed last so they layer over the storeview defaults;
+   store-switcher wiring is preserved.
+   ========================================================================== */
+
+/* Headings of each link column */
+footer .footer h2,
+footer .footer h3,
+footer .footer h4 {
+    font: var(--gs-type-subheading-gs);
+    color: var(--gs-color-white);
+    margin: 0 0 var(--gs-spacing-16);
+}
+
+footer .footer .default-content-wrapper ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gs-spacing-16);
+}
+
+footer .footer a {
+    color: var(--gs-color-white);
+    font: var(--gs-type-body-medium);
+    text-decoration: none;
+}
+
+footer .footer a:hover {
+    color: var(--gs-color-star-green);
+    text-decoration: underline;
+}
+
+/* Social icons row */
+footer .footer .footer-social ul,
+footer .footer ul.footer-social {
+    flex-flow: row wrap;
+    gap: var(--gs-spacing-24);
+}
+
+footer .footer .footer-social a {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+}
+
+footer .footer .footer-social img {
+    width: 100%;
+    height: 100%;
+}
+
+/* Newsletter card — right rail */
+footer .footer .footer-newsletter {
+    border-radius: var(--shape-border-radius-2);
+    overflow: hidden;
+    background-color: var(--gs-color-deep-cyan);
+}
+
+footer .footer .footer-newsletter img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+footer .footer .footer-newsletter > div:last-child {
+    padding: var(--gs-spacing-24);
+}
+
+footer .footer .footer-newsletter a.button {
+    margin-top: var(--gs-spacing-16);
+    background-color: transparent;
+    color: var(--gs-color-white);
+    text-transform: uppercase;
+    padding: 0;
+    border: 0;
+}
+
+/* Wholesale partners box */
+footer .footer .footer-wholesale {
+    border: var(--shape-border-width-1) solid var(--gs-color-star-green);
+    border-radius: var(--shape-border-radius-2);
+    padding: var(--gs-spacing-24);
+    margin-top: var(--gs-spacing-24);
+}
+
+/* Bottom legal bar */
+footer .footer .footer-legal {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gs-spacing-24);
+    align-items: center;
+    justify-content: space-between;
+    border-top: var(--shape-border-width-1) solid rgb(255 255 255 / 20%);
+    padding-top: var(--gs-spacing-24);
+    margin-top: var(--gs-spacing-24);
+    font: var(--gs-type-body-small);
+    text-transform: uppercase;
+}
+
 @media (min-width: 900px) {
+    /* Link columns laid out as a responsive grid */
     footer .footer > div {
-        padding: 40px 32px 24px;
+        display: grid;
+        grid-template-columns: auto repeat(3, 1fr) minmax(280px, 1fr);
+        gap: var(--gs-spacing-48);
+        align-items: start;
+        padding: var(--gs-spacing-64) var(--gs-spacing-32) var(--gs-spacing-24);
     }
 }

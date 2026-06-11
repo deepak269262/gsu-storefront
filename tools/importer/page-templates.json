@@ -1,0 +1,132 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": [
+        "https://main--gsu-storefront--deepak269262.aem.live/"
+      ],
+      "description": "Storefront homepage with hero, promotional banners and product widgets",
+      "blocks": [
+        {
+          "name": "hero-banner",
+          "instances": [
+            ".hero-container .hero.block"
+          ]
+        },
+        {
+          "name": "columns-feature",
+          "instances": [
+            ".columns-container .columns.block"
+          ]
+        },
+        {
+          "name": "cards-feature",
+          "instances": [
+            ".cards-container .cards.block"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Hero",
+          "selector": ".section.hero-container",
+          "style": null,
+          "blocks": [
+            "hero-banner"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-2",
+          "name": "Columns Feature",
+          "selector": ".section.columns-container",
+          "style": null,
+          "blocks": [
+            "columns-feature"
+          ],
+          "defaultContent": [
+            ".columns-container .default-content-wrapper h3"
+          ]
+        },
+        {
+          "id": "section-3",
+          "name": "Cards Feature",
+          "selector": ".section.cards-container",
+          "style": "highlight",
+          "blocks": [
+            "cards-feature"
+          ],
+          "defaultContent": [
+            ".cards-container .default-content-wrapper h3"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "product-listing",
+      "urls": [
+        "https://main--gsu-storefront--deepak269262.aem.live/apparel"
+      ],
+      "description": "Category / product listing page (PLP) showing a grid of products with filters",
+      "blocks": []
+    },
+    {
+      "name": "product-detail",
+      "urls": [
+        "https://main--gsu-storefront--deepak269262.aem.live/products/default"
+      ],
+      "description": "Product detail page (PDP) with gallery, options and add-to-cart",
+      "blocks": []
+    },
+    {
+      "name": "cart",
+      "urls": [
+        "https://main--gsu-storefront--deepak269262.aem.live/empty-cart",
+        "https://main--gsu-storefront--deepak269262.aem.live/mini-cart"
+      ],
+      "description": "Shopping cart pages including empty-cart and mini-cart states",
+      "blocks": []
+    },
+    {
+      "name": "info-page",
+      "urls": [
+        "https://main--gsu-storefront--deepak269262.aem.live/privacy-policy",
+        "https://main--gsu-storefront--deepak269262.aem.live/support"
+      ],
+      "description": "Static content / informational pages such as privacy policy and support",
+      "blocks": []
+    },
+    {
+      "name": "customer-account",
+      "urls": [
+        "https://main--gsu-storefront--deepak269262.aem.live/customer/nav",
+        "https://main--gsu-storefront--deepak269262.aem.live/customer/orders-copy",
+        "https://main--gsu-storefront--deepak269262.aem.live/customer/requsition-lists",
+        "https://main--gsu-storefront--deepak269262.aem.live/customer/company/company"
+      ],
+      "description": "Customer account area pages: navigation, orders, requisition lists and company management",
+      "blocks": []
+    },
+    {
+      "name": "enrichment-banner",
+      "urls": [
+        "https://main--gsu-storefront--deepak269262.aem.live/enrichment/category-banner",
+        "https://main--gsu-storefront--deepak269262.aem.live/enrichment/product-banner"
+      ],
+      "description": "Commerce enrichment banner fragments for category and product pages",
+      "blocks": []
+    },
+    {
+      "name": "widget",
+      "urls": [
+        "https://main--gsu-storefront--deepak269262.aem.live/widgets/apparel"
+      ],
+      "description": "Reusable commerce widget fragment (apparel widget)",
+      "blocks": []
+    }
+  ]
+}

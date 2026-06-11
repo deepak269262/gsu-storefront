@@ -12,33 +12,146 @@
 
 /* stylelint-disable no-empty-source */
 :root, .dropin-design {
-  /* Adobe Commerce Dropin design tokens */
-  --color-brand-300: #6d6d6d;
-  --color-brand-500: #454545;
-  --color-brand-600: #383838;
-  --color-brand-700: #2b2b2b;
-  --color-neutral-50: #fff;
-  --color-neutral-100: #fafafa;
+  /* ==========================================================================
+     Girl Scouts brand foundation tokens (--gs-*)
+     Source of truth migrated from Figma "Foundation" page
+     (file 9LoLlN38Ej35qSVRcokDUu). The Adobe Commerce dropin tokens below
+     are re-pointed to these values so existing blocks rebrand automatically.
+     ========================================================================== */
+
+  /* -- GS Colors: Primary -- */
+  --gs-color-green: #00b451;        /* Girl Scouts Green - CTAs */
+  --gs-color-forest-green: #005640; /* Forest Green - CTA hover */
+  --gs-color-green-mid: #008138;    /* Green */
+  --gs-color-dark-cyan: #044248;    /* Dark Cyan */
+  --gs-color-star-green: #d5f267;   /* Star Green */
+  --gs-color-black: #000;           /* Headings, primary text */
+  --gs-color-dark-grey: #2d2e33;    /* Paragraphs, sub text */
+  --gs-color-stone: #a8a8a8;
+  --gs-color-cloud: #d9d9d9;
+  --gs-color-white: #fff;
+  --gs-color-off-white: #f4f8f6;    /* light section background */
+  --gs-color-border: #e5e5e5;
+  --gs-color-near-black: #1a1a1a;
+
+  /* -- GS Colors: Secondary -- */
+  --gs-color-deep-cyan: #006973;
+  --gs-color-ocean: #004987;
+  --gs-color-deep-purple: #5c1f8b;
+  --gs-color-plum: #af0061;
+  --gs-color-cherry: #9c0000;
+  --gs-color-brown: #763a16;
+  --gs-color-desert: #a86b1d;
+
+  /* -- GS Colors: Accent -- */
+  --gs-color-teal: #00b2be;
+  --gs-color-river: #1496d4;
+  --gs-color-violet: #9e5fd6;
+  --gs-color-fuchsia: #fd329e;
+  --gs-color-poppy: #ee3124;
+  --gs-color-flame: #ff830c;
+  --gs-color-gold: #f7be00;
+
+  /* -- GS Colors: Neutral pastels -- */
+  --gs-color-sea-foam: #a3edd6;
+  --gs-color-sky: #a0def1;
+  --gs-color-lilac: #ccb3fa;
+  --gs-color-bubblegum: #f7abd6;
+  --gs-color-peach: #fcb89d;
+  --gs-color-khaki: #d5ca9f;
+  --gs-color-sunshine: #fff441;
+
+  /* -- GS Typography: font families -- */
+  --gs-font-display: "Girl Scout", adobe-clean, roboto, system-ui, sans-serif;
+  --gs-font-body: "Trefoil Sans", adobe-clean, roboto, system-ui, sans-serif;
+
+  /* -- GS Typography: display scale (Girl Scout) -- */
+  --gs-type-display-large: normal normal 300 7.2rem/8.64rem var(--gs-font-display);
+  --gs-type-display-medium: normal normal 300 6.4rem/7.68rem var(--gs-font-display);
+  --gs-type-display-small: normal normal 300 5.6rem/6.72rem var(--gs-font-display);
+  --gs-type-display-xsmall: normal normal 700 4.8rem/5.76rem var(--gs-font-display);
+
+  /* -- GS Typography: headings -- */
+  --gs-type-h1: normal normal 300 4rem/4.8rem var(--gs-font-display);
+  --gs-type-h2: normal normal 500 3.6rem/4.32rem var(--gs-font-display);
+  --gs-type-h3: normal normal 500 3.2rem/3.84rem var(--gs-font-body);
+  --gs-type-h4: normal normal 600 2.8rem/3.36rem var(--gs-font-body);
+  --gs-type-h5: normal normal 600 2.4rem/2.88rem var(--gs-font-body);
+
+  /* -- GS Typography: sub-headings -- */
+  --gs-type-subheading-gs: normal normal 700 2rem/2.4rem var(--gs-font-display);
+  --gs-type-subheading-ts: normal normal 400 2rem/2.4rem var(--gs-font-body);
+
+  /* -- GS Typography: body -- */
+  --gs-type-body-large: normal normal 400 1.8rem/2.52rem var(--gs-font-body);
+  --gs-type-body-large-light: normal normal 300 1.8rem/2.52rem var(--gs-font-body);
+  --gs-type-body-large-strong: normal normal 600 1.8rem/2.52rem var(--gs-font-body);
+  --gs-type-body-medium: normal normal 400 1.6rem/2.24rem var(--gs-font-body);
+  --gs-type-body-medium-light: normal normal 300 1.6rem/2.24rem var(--gs-font-body);
+  --gs-type-body-medium-strong: normal normal 600 1.6rem/2.24rem var(--gs-font-body);
+  --gs-type-body-small: normal normal 400 1.4rem/1.96rem var(--gs-font-body);
+  --gs-type-body-small-strong: normal normal 600 1.4rem/1.96rem var(--gs-font-body);
+  --gs-type-body-xsmall: normal normal 400 1.2rem/1.68rem var(--gs-font-body);
+  --gs-type-body-xsmall-strong: normal normal 600 1.2rem/1.68rem var(--gs-font-body);
+
+  /* -- GS Typography: captions & CTA -- */
+  --gs-type-caption: normal normal 500 1.4rem/1.68rem var(--gs-font-body);
+  --gs-type-eyebrow: normal normal 500 1.2rem/1.44rem var(--gs-font-body);
+  --gs-type-cta-large: normal normal 600 1.6rem/1.92rem var(--gs-font-body);
+  --gs-type-cta-link: normal normal 600 1.6rem/1.92rem var(--gs-font-body);
+
+  /* -- GS Spacing scale (px values from Figma spacing frame) -- */
+  --gs-spacing-0: 0;
+  --gs-spacing-2: 2px;
+  --gs-spacing-4: 4px;
+  --gs-spacing-8: 8px;
+  --gs-spacing-12: 12px;
+  --gs-spacing-16: 16px;
+  --gs-spacing-24: 24px;
+  --gs-spacing-32: 32px;
+  --gs-spacing-48: 48px;
+  --gs-spacing-64: 64px;
+  --gs-spacing-96: 96px;
+  --gs-spacing-120: 120px;
+
+  /* -- GS Responsive grid -- */
+  --gs-grid-mobile-columns: 4;
+  --gs-grid-mobile-margin: 20px;
+  --gs-grid-mobile-gutter: 16px;
+  --gs-grid-desktop-columns: 12;
+  --gs-grid-desktop-margin: 56px;
+  --gs-grid-desktop-gutter: 24px;
+
+  /* ==========================================================================
+     Adobe Commerce Dropin design tokens — re-pointed to GS values.
+     Names preserved to protect existing block references.
+     ========================================================================== */
+  --color-brand-300: var(--gs-color-green-mid);
+  --color-brand-500: var(--gs-color-green);
+  --color-brand-600: var(--gs-color-forest-green);
+  --color-brand-700: var(--gs-color-dark-cyan);
+  --color-neutral-50: var(--gs-color-white);
+  --color-neutral-100: var(--gs-color-off-white);
   --color-neutral-200: #f5f5f5;
-  --color-neutral-300: #e8e8e8;
-  --color-neutral-400: #d6d6d6;
-  --color-neutral-500: #b8b8b8;
-  --color-neutral-600: #8f8f8f;
+  --color-neutral-300: var(--gs-color-border);
+  --color-neutral-400: var(--gs-color-cloud);
+  --color-neutral-500: #ccc;
+  --color-neutral-600: var(--gs-color-stone);
   --color-neutral-700: #666;
-  --color-neutral-800: #3d3d3d;
-  --color-neutral-900: #292929;
-  --color-positive-200: #eff5ef;
-  --color-positive-500: #7fb078;
-  --color-positive-800: #53824c;
-  --color-informational-200: #eeeffb;
-  --color-informational-500: #6978d9;
-  --color-informational-800: #5d6dd6;
+  --color-neutral-800: var(--gs-color-dark-grey);
+  --color-neutral-900: var(--gs-color-near-black);
+  --color-positive-200: #e6f4ec;
+  --color-positive-500: var(--gs-color-green);
+  --color-positive-800: var(--gs-color-forest-green);
+  --color-informational-200: #e7f1f9;
+  --color-informational-500: var(--gs-color-river);
+  --color-informational-800: var(--gs-color-ocean);
   --color-warning-200: #fdf3e9;
-  --color-warning-500: #e79f5c;
-  --color-warning-800: #cc7a2e;
-  --color-alert-200: #ffebeb;
-  --color-alert-500: #db7070;
-  --color-alert-800: #c35050;
+  --color-warning-500: var(--gs-color-gold);
+  --color-warning-800: var(--gs-color-desert);
+  --color-alert-200: #fdeceb;
+  --color-alert-500: var(--gs-color-poppy);
+  --color-alert-800: var(--gs-color-cherry);
   --color-button-active: var(--color-brand-700);
   --color-button-focus: var(--color-neutral-400);
   --color-button-hover: var(--color-brand-600);
@@ -46,21 +159,21 @@
   --color-action-button-hover: var(--color-neutral-300);
   --color-opacity-16: rgb(255 255 255 / 16%);
   --color-opacity-24: rgb(255 255 255 / 24%);
-  --grid-1-columns: 4;
+  --grid-1-columns: var(--gs-grid-mobile-columns);
   --grid-1-margins: 0;
-  --grid-1-gutters: 16px;
-  --grid-2-columns: 12;
+  --grid-1-gutters: var(--gs-grid-mobile-gutter);
+  --grid-2-columns: var(--gs-grid-desktop-columns);
   --grid-2-margins: 0;
-  --grid-2-gutters: 16px;
-  --grid-3-columns: 12;
+  --grid-2-gutters: var(--gs-spacing-16);
+  --grid-3-columns: var(--gs-grid-desktop-columns);
   --grid-3-margins: 0;
-  --grid-3-gutters: 24px;
-  --grid-4-columns: 12;
+  --grid-3-gutters: var(--gs-grid-desktop-gutter);
+  --grid-4-columns: var(--gs-grid-desktop-columns);
   --grid-4-margins: 0;
-  --grid-4-gutters: 24px;
-  --grid-5-columns: 12;
+  --grid-4-gutters: var(--gs-grid-desktop-gutter);
+  --grid-5-columns: var(--gs-grid-desktop-columns);
   --grid-5-margins: 0;
-  --grid-5-gutters: 24px;
+  --grid-5-gutters: var(--gs-grid-desktop-gutter);
   --shape-border-radius-1: 3px;
   --shape-border-radius-2: 8px;
   --shape-border-radius-3: 24px;
@@ -75,54 +188,54 @@
   --shape-icon-stroke-2: 1.5px;
   --shape-icon-stroke-3: 2px;
   --shape-icon-stroke-4: 4px;
-  --spacing-xxsmall: 4px;
-  --spacing-xsmall: 8px;
-  --spacing-small: 16px;
-  --spacing-medium: 24px;
-  --spacing-big: 32px;
+  --spacing-xxsmall: var(--gs-spacing-4);
+  --spacing-xsmall: var(--gs-spacing-8);
+  --spacing-small: var(--gs-spacing-16);
+  --spacing-medium: var(--gs-spacing-24);
+  --spacing-big: var(--gs-spacing-32);
   --spacing-xbig: 40px;
-  --spacing-xxbig: 48px;
-  --spacing-large: 64px;
+  --spacing-xxbig: var(--gs-spacing-48);
+  --spacing-large: var(--gs-spacing-64);
   --spacing-xlarge: 72px;
-  --spacing-xxlarge: 96px;
-  --spacing-huge: 120px;
+  --spacing-xxlarge: var(--gs-spacing-96);
+  --spacing-huge: var(--gs-spacing-120);
   --spacing-xhuge: 144px;
   --spacing-xxhuge: 192px;
-  --type-base-font-family: adobe-clean, roboto, roboto-fallback, system-ui, sans-serif;
-  --type-display-1-font: normal normal 300 6rem/7.2rem var(--type-base-font-family);
-  --type-display-1-letter-spacing: 0.04em;
-  --type-display-2-font: normal normal 300 4.8rem/5.6rem var(--type-base-font-family);
-  --type-display-2-letter-spacing: 0.04em;
-  --type-display-3-font: normal normal 300 3.4rem/4rem var(--type-base-font-family);
-  --type-display-3-letter-spacing: 0.04em;
-  --type-headline-1-font: normal normal 400 2.4rem/3.2rem var(--type-base-font-family);
-  --type-headline-1-letter-spacing: 0.04em;
-  --type-headline-2-default-font: normal normal 300 2rem/2.4rem var(--type-base-font-family);
-  --type-headline-2-default-letter-spacing: 0.04em;
-  --type-headline-2-strong-font: normal normal 700 2rem/2.4rem var(--type-base-font-family);
-  --type-headline-2-strong-letter-spacing: 0.04em;
-  --type-body-1-default-font: normal normal 300 1.6rem/2.4rem var(--type-base-font-family);
-  --type-body-1-default-letter-spacing: 0.04em;
-  --type-body-1-strong-font: normal normal 700 1.6rem/2.4rem var(--type-base-font-family);
-  --type-body-1-strong-letter-spacing: 0.04em;
-  --type-body-1-emphasized-font: normal normal 700 1.6rem/2.4rem var(--type-base-font-family);
-  --type-body-1-emphasized-letter-spacing: 0.04em;
-  --type-body-2-default-font: normal normal 300 1.4rem/2rem var(--type-base-font-family);
-  --type-body-2-default-letter-spacing: 0.04em;
-  --type-body-2-strong-font: normal normal 700 1.4rem/2rem var(--type-base-font-family);
-  --type-body-2-strong-letter-spacing: 0.04em;
-  --type-body-2-emphasized-font: normal normal 700 1.4rem/2rem var(--type-base-font-family);
-  --type-body-2-emphasized-letter-spacing: 0.04em;
-  --type-button-1-font: normal normal 400 2rem/2.6rem var(--type-base-font-family);
-  --type-button-1-letter-spacing: 0.08em;
-  --type-button-2-font: normal normal 400 1.6rem/2.4rem var(--type-base-font-family);
-  --type-button-2-letter-spacing: 0.08em;
-  --type-details-caption-1-font: normal normal 400 1.2rem/1.6rem var(--type-base-font-family);
-  --type-details-caption-1-letter-spacing: 0.08em;
-  --type-details-caption-2-font: normal normal 300 1.2rem/1.6rem var(--type-base-font-family);
-  --type-details-caption-2-letter-spacing: 0.08em;
-  --type-details-overline-font: normal normal 400 1.2rem/2rem var(--type-base-font-family);
-  --type-details-overline-letter-spacing: 0.16em;
+  --type-base-font-family: var(--gs-font-body);
+  --type-display-1-font: var(--gs-type-h1);
+  --type-display-1-letter-spacing: 0;
+  --type-display-2-font: var(--gs-type-h2);
+  --type-display-2-letter-spacing: 0;
+  --type-display-3-font: var(--gs-type-h3);
+  --type-display-3-letter-spacing: 0;
+  --type-headline-1-font: var(--gs-type-h4);
+  --type-headline-1-letter-spacing: 0;
+  --type-headline-2-default-font: normal normal 400 2.4rem/2.88rem var(--gs-font-body);
+  --type-headline-2-default-letter-spacing: 0;
+  --type-headline-2-strong-font: var(--gs-type-h5);
+  --type-headline-2-strong-letter-spacing: 0;
+  --type-body-1-default-font: var(--gs-type-body-medium);
+  --type-body-1-default-letter-spacing: 0;
+  --type-body-1-strong-font: var(--gs-type-body-medium-strong);
+  --type-body-1-strong-letter-spacing: 0;
+  --type-body-1-emphasized-font: var(--gs-type-body-medium-strong);
+  --type-body-1-emphasized-letter-spacing: 0;
+  --type-body-2-default-font: var(--gs-type-body-small);
+  --type-body-2-default-letter-spacing: 0;
+  --type-body-2-strong-font: var(--gs-type-body-small-strong);
+  --type-body-2-strong-letter-spacing: 0;
+  --type-body-2-emphasized-font: var(--gs-type-body-small-strong);
+  --type-body-2-emphasized-letter-spacing: 0;
+  --type-button-1-font: var(--gs-type-cta-large);
+  --type-button-1-letter-spacing: 0;
+  --type-button-2-font: var(--gs-type-cta-large);
+  --type-button-2-letter-spacing: 0;
+  --type-details-caption-1-font: var(--gs-type-caption);
+  --type-details-caption-1-letter-spacing: 0;
+  --type-details-caption-2-font: var(--gs-type-body-xsmall);
+  --type-details-caption-2-letter-spacing: 0;
+  --type-details-overline-font: var(--gs-type-eyebrow);
+  --type-details-overline-letter-spacing: 0.08em;
 
   /* Additional tokens */
   --type-fixed-font-family: adobe-clean, "Roboto Mono", menlo, consolas, "Liberation Mono", monospace, system-ui, sans-serif;

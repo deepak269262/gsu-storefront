@@ -1,0 +1,38 @@
+{
+  "variantName": "hero-banner",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-06-11T08:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://main--gsu-storefront--deepak269262.aem.live/",
+    "originPage": "AEM+Commerce storefront homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "purpose": "hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "background image + heading",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "homepage hero banners",
+      "full-width image banners with overlaid heading",
+      "landing page intros with background imagery"
+    ],
+    "notSuitableFor": [
+      "text-only intros without background images",
+      "hero sections requiring CTA buttons or rich body copy"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-11T08:00:00.000Z"
+  }
+}

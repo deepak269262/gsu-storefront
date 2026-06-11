@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://main--gsu-storefront--deepak269262.aem.live/",
+  "path": "index",
+  "timestamp": "2026-06-11T13:38:17.836Z",
+  "title": "Home | AEM+Commerce Boilerplate",
+  "template": "homepage",
+  "blocks": [
+    "hero-banner",
+    "columns-feature",
+    "cards-feature"
+  ]
+}

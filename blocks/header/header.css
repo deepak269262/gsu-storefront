@@ -151,8 +151,8 @@ header nav .nav-brand {
 header nav .nav-brand a {
   grid-area: brand;
   flex-basis: 128px;
-  font: var(--type-headline-1-font);
-  letter-spacing: var(--type-headline-1-letter-spacing);
+  font: var(--gs-type-h2);
+  color: var(--gs-color-black);
   font-weight: bold;
 }
 
@@ -358,8 +358,8 @@ header nav .nav-tools button.nav-cart-button[data-count]::after {
   position: absolute;
   top: 0;
   right: -2px;
-  background-color: var(--color-brand-700);
-  color: var(--color-neutral-100);
+  background-color: var(--gs-color-green);
+  color: var(--gs-color-white);
   border-radius: 50%;
   width: 1.75em;
   height: 1.75em;
@@ -767,4 +767,109 @@ header .nav-search-input .search_autocomplete .popover-container {
   height: 15rem;
   max-width: 15rem;
   max-height: 15rem;
+}
+
+/* ==========================================================================
+   Girl Scouts header branding
+   Layers GS design over the existing nav structure using --gs-* tokens.
+   Selectors are additive so commerce wiring (search/cart/wishlist/account)
+   is untouched; styles activate when the authored nav fragment provides the
+   matching markup (offer bar, audience toggle, store-locator pill).
+   ========================================================================== */
+
+/* Offer / promo bar — top strip, star-green background */
+header .nav-offer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gs-spacing-8);
+  position: relative;
+  background-color: var(--gs-color-star-green);
+  color: var(--gs-color-black);
+  font: var(--gs-type-body-small);
+  padding: var(--gs-spacing-12) var(--gs-spacing-48);
+  text-align: center;
+}
+
+header .nav-offer-bar .nav-offer-link {
+  color: var(--gs-color-forest-green);
+  font: var(--gs-type-body-small-strong);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+header .nav-offer-bar .nav-offer-terms {
+  margin-left: auto;
+}
+
+header .nav-offer-bar .nav-offer-dismiss {
+  position: absolute;
+  right: var(--gs-spacing-16);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border: 0;
+  padding: 0;
+  background: url('../../icons/close.svg') center / 16px no-repeat;
+  cursor: pointer;
+}
+
+header .nav-offer-bar[hidden] {
+  display: none;
+}
+
+/* Audience toggle pill — For Everyone / For Leaders */
+header .nav-audience-toggle {
+  display: inline-flex;
+  align-items: center;
+  border: var(--shape-border-width-1) solid var(--gs-color-border);
+  border-radius: var(--shape-border-radius-3);
+  overflow: hidden;
+}
+
+header .nav-audience-toggle .nav-audience-option {
+  border: 0;
+  background: transparent;
+  margin: 0;
+  padding: var(--gs-spacing-8) var(--gs-spacing-16);
+  font: var(--gs-type-body-small-strong);
+  color: var(--gs-color-dark-grey);
+  cursor: pointer;
+}
+
+header .nav-audience-toggle .nav-audience-option[aria-pressed='true'],
+header .nav-audience-toggle .nav-audience-option[aria-current='true'] {
+  background-color: var(--gs-color-forest-green);
+  color: var(--gs-color-white);
+}
+
+/* Category nav row — sits below the brand bar, off-white background */
+@media (min-width: 900px) {
+  header nav .nav-sections {
+    background-color: var(--gs-color-off-white);
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li,
+  header nav .nav-sections .default-content-wrapper > ul > li > a {
+    font: var(--gs-type-body-medium);
+    color: var(--gs-color-black);
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li:hover,
+  header nav .nav-sections .nav-drop[aria-expanded='true'] {
+    background-color: var(--gs-color-star-green);
+  }
+}
+
+/* Store Locator pill — khaki-tinted rounded tab */
+header .nav-store-locator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gs-spacing-8);
+  border-radius: var(--shape-border-radius-3);
+  background-color: rgb(213 202 159 / 30%);
+  padding: var(--gs-spacing-4) var(--gs-spacing-12);
+  font: var(--gs-type-body-small);
+  color: var(--gs-color-black);
 }

@@ -5,23 +5,19 @@
 
 .hero {
   position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 360px;
+  padding: var(--gs-spacing-32) var(--gs-spacing-24);
+  overflow: hidden;
 }
 
-.hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--background-color);
-}
-
+/* Background image fills the banner */
 .hero picture {
   position: absolute;
-  z-index: -1;
+  z-index: -2;
   inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
 }
 
 .hero img {
@@ -30,8 +26,106 @@
   height: 100%;
 }
 
+/* Left-to-right gradient scrim for text legibility */
+.hero::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(0 0 0 / 60%) 0%, rgb(0 0 0 / 30%) 40%, rgb(0 0 0 / 0%) 70%);
+}
+
+/* Text + CTA container — left aligned, constrained width */
+.hero > div {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero .default-content-wrapper {
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gs-spacing-16);
+  color: var(--gs-color-white);
+}
+
+.hero p {
+  margin: 0;
+  color: var(--gs-color-white);
+}
+
+/* Eyebrow (first paragraph above the headline) */
+.hero .default-content-wrapper > p:first-child {
+  font: var(--gs-type-subheading-gs);
+  margin: 0;
+}
+
+.hero h1,
+.hero h2 {
+  font: var(--gs-type-display-xsmall);
+  color: var(--gs-color-white);
+  margin: 0;
+}
+
+/* CTA row */
+.hero .button-container {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gs-spacing-24);
+  margin: 0;
+}
+
+/* Primary CTA — outlined white button */
+.hero a.button,
+.hero a.button:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gs-spacing-4);
+  margin: 0;
+  padding: var(--gs-spacing-12) var(--gs-spacing-24);
+  border: var(--shape-border-width-3) solid var(--gs-color-off-white);
+  border-radius: var(--shape-border-radius-2);
+  background: transparent;
+  color: var(--gs-color-white);
+  font: var(--gs-type-cta-large);
+  text-transform: uppercase;
+}
+
+.hero a.button:hover,
+.hero a.button:focus {
+  background: var(--gs-color-white);
+  color: var(--gs-color-forest-green);
+}
+
+/* Secondary CTA — text link with arrow (no fill/border) */
+.hero a.button.secondary,
+.hero a.button.secondary:any-link {
+  border: 0;
+  padding: var(--gs-spacing-8) 0;
+  background: transparent;
+  color: var(--gs-color-white);
+}
+
+.hero a.button.secondary::after {
+  content: '\203A';
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+.hero a.button.secondary:hover {
+  background: transparent;
+  color: var(--gs-color-star-green);
+}
+
 @media (min-width: 900px) {
   .hero {
-    padding: 40px 32px;
+    min-height: 600px;
+    padding: var(--gs-spacing-48) var(--gs-spacing-32);
+  }
+
+  .hero h1,
+  .hero h2 {
+    font: var(--gs-type-display-medium);
   }
 }

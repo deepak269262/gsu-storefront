@@ -1,0 +1,88 @@
+{
+  "definitions": [
+    {
+      "title": "Hero Banner",
+      "id": "hero-banner",
+      "model": "hero-banner",
+      "filter": "hero-banner",
+      "plugins": {
+        "da": {
+          "rows": 1,
+          "columns": 1
+        }
+      }
+    },
+    {
+      "title": "Hero Banner Slide",
+      "id": "hero-banner-slide",
+      "model": "hero-banner-slide",
+      "plugins": {
+        "da": {
+          "rows": 1,
+          "columns": 1,
+          "fields": [
+            { "name": "image", "selector": "div>picture>img[src]" },
+            { "name": "imageAlt", "selector": "div>picture>img[alt]" },
+            { "name": "eyebrow", "selector": "div>p:nth-of-type(1)" },
+            { "name": "headline", "selector": "div>h1" },
+            { "name": "text", "selector": "div" }
+          ]
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "hero-banner",
+      "fields": []
+    },
+    {
+      "id": "hero-banner-slide",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Background Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "imageAlt",
+          "label": "Image Alt",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "eyebrow",
+          "label": "Eyebrow",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "headline",
+          "label": "Headline",
+          "value": ""
+        },
+        {
+          "component": "richtext",
+          "name": "text",
+          "value": "",
+          "label": "CTAs & Terms",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "hero-banner",
+      "components": [
+        "hero-banner-slide"
+      ]
+    }
+  ]
+}
