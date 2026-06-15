@@ -193,14 +193,12 @@ async function inlineIconLink(a) {
 }
 
 /**
- * Inlines the brand logo + social icon SVGs so they render as vector glyphs.
+ * Inlines the social icon SVGs so they render as vector glyphs that inherit
+ * the link color (white + green hover). The brand uses a real <img> logo.
  * @param {Element} footer The footer content container
  */
 async function decorateSocialIcons(footer) {
-  const links = [
-    ...footer.querySelectorAll('.footer-brand a'),
-    ...footer.querySelectorAll('.footer-social a'),
-  ];
+  const links = [...footer.querySelectorAll('.footer-social a')];
   await Promise.all(links.map(inlineIconLink));
 }
 

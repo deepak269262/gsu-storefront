@@ -1,5 +1,5 @@
 footer {
-    background-color: var(--gs-color-forest-green);
+    background-color: var(--gs-color-deep-forest);
     color: var(--gs-color-white);
     font: var(--gs-type-body-medium);
 }
@@ -80,34 +80,42 @@ footer .footer .section {
     padding: 0;
 }
 
-/* Column headings */
+/* Column headings — Trefoil Sans SemiBold 16px/22px */
 footer .footer h2,
 footer .footer h3,
 footer .footer h4 {
     font: var(--gs-type-body-medium-strong);
     color: var(--gs-color-white);
-    margin: 0 0 24px;
+    margin: 0 0 8px;
 }
 
-/* Link lists */
+/* Link lists — 8px vertical rhythm per row (Figma py-8px) */
 footer .footer .footer-links ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
 }
 
 footer .footer a {
     color: var(--gs-color-white);
-    font: var(--gs-type-body-small);
+    font: var(--gs-type-body-medium);
     text-decoration: none;
 }
 
 footer .footer a:hover {
     color: var(--gs-color-green);
     text-decoration: underline;
+}
+
+/* Uppercase link styling for wholesale + legal (declared early to keep
+   source order ahead of the social :hover rule). */
+footer .footer .footer-wholesale a,
+footer .footer .footer-legal a {
+    font: var(--gs-type-body-small);
+    text-transform: uppercase;
 }
 
 /* Brand logo */
@@ -120,11 +128,6 @@ footer .footer .footer-brand svg,
 footer .footer .footer-brand img {
     width: 160px;
     height: auto;
-}
-
-/* Emphasized wholesale link */
-footer .footer .footer-wholesale a {
-    font: var(--gs-type-body-medium-strong);
 }
 
 /* ---- Desktop layout: brand | center | rail ---- */
@@ -165,29 +168,29 @@ footer .footer .footer-center-row--secondary > .section {
 }
 
 footer .footer .footer-col--rail {
-    flex: 0 0 274px;
+    flex: 0 0 272px;
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
-/* Social icons — wrap to 2 rows of 3 within the 671px center width */
+/* Social icons — 6 in 2 rows of 3 within a 161px container, 24px gap */
 footer .footer .footer-social ul {
     list-style: none;
-    padding: 0;
+    padding: 8px 0 0;
     margin: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
-    max-width: 160px;
+    max-width: 161px;
 }
 
 footer .footer .footer-social a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     color: var(--gs-color-white);
 }
 
@@ -198,25 +201,27 @@ footer .footer .footer-social a:hover {
 footer .footer .footer-social .icon,
 footer .footer .footer-social svg,
 footer .footer .footer-social img {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
 }
 
 footer .footer .footer-social svg {
     fill: currentcolor;
 }
 
-/* Newsletter card — photo on top, deep-cyan text band below */
+/* Newsletter card — photo on top (272×136), forest-green text band below */
 footer .footer .footer-newsletter {
     border-radius: var(--shape-border-radius-2);
     overflow: hidden;
-    background-color: var(--gs-color-deep-cyan);
+    background-color: var(--gs-color-forest-green);
 }
 
 footer .footer .footer-newsletter img {
     width: 100%;
     height: auto;
     display: block;
+    aspect-ratio: 272 / 136;
+    object-fit: cover;
 }
 
 footer .footer .footer-newsletter h3 {
@@ -246,22 +251,25 @@ footer .footer .footer-newsletter a.button {
     border: 0;
     background: transparent;
     color: var(--gs-color-white);
-    font: var(--gs-type-body-xsmall-strong);
+    font: var(--gs-type-body-medium-strong);
     text-transform: uppercase;
 }
 
-/* Wholesale partners — transparent card with gold border */
+/* Wholesale partners — faint green tint fill + khaki border (Figma) */
 footer .footer .footer-wholesale {
-    border: var(--shape-border-width-1) solid var(--gs-color-gold);
+    background-color: rgb(0 174 67 / 10%);
+    border: var(--shape-border-width-1) solid rgb(213 202 159 / 60%);
     border-radius: var(--shape-border-radius-2);
-    padding: 24px;
+    padding: 12px;
+    font: var(--gs-type-body-small);
+    text-transform: uppercase;
 }
 
-/* Bottom legal bar — full-width divider above */
+/* Bottom legal bar — full-width #4e4e4e divider above, pt-16 pb-8 */
 footer .footer .footer-bottom {
-    border-top: var(--shape-border-width-1) solid rgb(255 255 255 / 20%);
+    border-top: var(--shape-border-width-1) solid #4e4e4e;
     margin-top: 24px;
-    padding-top: 24px;
+    padding: 16px 0 8px;
 }
 
 footer .footer .footer-bottom .footer-legal {
@@ -279,12 +287,16 @@ footer .footer .footer-legal > p:first-child {
 }
 
 footer .footer .footer-legal > p:last-child {
-    font: var(--gs-type-body-xsmall);
+    font: var(--gs-type-body-small);
     text-transform: uppercase;
 }
 
 /* ---- Tablet + Mobile (< 1024px): single column, accordions ---- */
 @media (max-width: 1023px) {
+    footer .footer > div {
+        padding: 48px 40px;
+    }
+
     footer .footer .footer-main {
         flex-direction: column;
         gap: 0;
@@ -366,5 +378,17 @@ footer .footer .footer-legal > p:last-child {
         flex-direction: column;
         align-items: flex-start;
         gap: 24px;
+    }
+}
+
+/* ---- Mobile (< 768px): tighter side padding ---- */
+@media (max-width: 767px) {
+    footer .footer > div {
+        padding: 40px 20px;
+    }
+
+    footer .footer .footer-legal > p:first-child {
+        flex-direction: column;
+        gap: 16px;
     }
 }
