@@ -32,8 +32,8 @@ function buildHeroBlock(main) {
   const picture = main.querySelector('picture');
   // eslint-disable-next-line no-bitwise
   if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
-    // Check if h1 or picture is already inside a hero block
-    if (h1.closest('.hero') || picture.closest('.hero')) {
+    // Check if h1 or picture is already inside a hero / hero-banner block
+    if (h1.closest('.hero, .hero-banner') || picture.closest('.hero, .hero-banner')) {
       return; // Don't create a duplicate hero block
     }
     const section = document.createElement('div');
@@ -78,7 +78,7 @@ function buildAutoBlocks(main) {
       });
     }
 
-    if (!main.querySelector('.hero')) buildHeroBlock(main);
+    if (!main.querySelector('.hero, .hero-banner')) buildHeroBlock(main);
   } catch (error) {
     console.error('Auto Blocking failed', error);
   }

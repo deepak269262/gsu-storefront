@@ -8,7 +8,7 @@
   overflow: hidden;
 }
 
-/* Slide track — slides are stacked; active one is shown */
+/* Slide track — slides stacked; active one shown */
 .hero-banner-track {
   display: grid;
 }
@@ -19,8 +19,8 @@
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  min-height: 360px;
-  padding: var(--gs-spacing-32) var(--gs-spacing-24);
+  min-height: 420px;
+  padding: 40px 24px;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.4s ease;
@@ -45,22 +45,22 @@
   height: 100%;
 }
 
-/* Golden gradient overlay (Figma: 131.58deg, darkens the left) */
+/* Golden gradient overlay (Figma: 98deg, darkens the left) */
 .hero-banner-slide::before {
   content: '';
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: linear-gradient(131.58deg, rgb(145 113 64 / 59%) 27%, rgb(168 138 92 / 0%) 76%);
+  background: linear-gradient(98deg, rgb(145 113 64 / 98%) 0%, rgb(168 138 92 / 39%) 31%, rgb(168 138 92 / 0%) 100%);
 }
 
-/* Content — left aligned, constrained width */
+/* Content — left aligned, 410px wide (Figma), 16px gap */
 .hero-banner-content {
   width: 100%;
-  max-width: 460px;
+  max-width: 410px;
   display: flex;
   flex-direction: column;
-  gap: var(--gs-spacing-16);
+  gap: 16px;
   color: var(--gs-color-white);
 }
 
@@ -69,41 +69,40 @@
   color: var(--gs-color-white);
 }
 
-/* Eyebrow — first paragraph above the headline */
+/* Eyebrow — Girl Scout Bold 20px/24px */
 .hero-banner-content > p:first-child {
-  font: var(--gs-type-subheading-gs);
+  font: normal normal 700 20px / 24px var(--gs-font-display);
 }
 
+/* Headline — Girl Scout Bold 48px/58px */
 .hero-banner-content h1,
 .hero-banner-content h2 {
-  font: var(--gs-type-display-xsmall);
+  font: normal normal 700 48px / 58px var(--gs-font-display);
   color: var(--gs-color-white);
   margin: 0;
 }
 
-/* CTA row — both buttons sit side by side */
+/* CTA row — buttons side by side, 24px gap */
 .hero-banner-content .button-container {
   display: inline-block;
   margin: 0;
 }
 
-.hero-banner-content p.button-container + p.button-container {
-  margin-top: calc(var(--gs-spacing-8) * -1);
-}
-
-/* Primary CTA — outlined white button */
+/* Primary CTA — outlined white button, 46px tall, 2px #f6f3ec, radius 8px */
 .hero-banner-content a.button,
 .hero-banner-content a.button:any-link {
   display: inline-flex;
   align-items: center;
-  gap: var(--gs-spacing-4);
-  margin: var(--gs-spacing-8) 0 0;
-  padding: var(--gs-spacing-12) var(--gs-spacing-24);
-  border: var(--shape-border-width-3) solid var(--gs-color-off-white);
-  border-radius: var(--shape-border-radius-2);
+  gap: 4px;
+  box-sizing: border-box;
+  height: 46px;
+  margin: 8px 24px 0 0;
+  padding: 12px 24px;
+  border: 2px solid var(--gs-color-off-white);
+  border-radius: 8px;
   background: transparent;
   color: var(--gs-color-white);
-  font: var(--gs-type-cta-large);
+  font: normal normal 600 16px / 21px var(--gs-font-body);
   text-transform: uppercase;
 }
 
@@ -113,11 +112,13 @@
   color: var(--gs-color-forest-green);
 }
 
-/* Secondary CTA — ghost text link with arrow */
+/* Secondary CTA — ghost text link with arrow, radius 10px */
 .hero-banner-content a.button.secondary,
 .hero-banner-content a.button.secondary:any-link {
+  height: 37px;
   border: 0;
-  padding: var(--gs-spacing-8) 0;
+  border-radius: 10px;
+  padding: 8px 0;
   background: transparent;
   color: var(--gs-color-white);
 }
@@ -133,18 +134,18 @@
   color: var(--gs-color-star-green);
 }
 
-/* Terms label — bottom-right, semi-transparent dark background */
+/* Terms label — bottom-right, semi-transparent dark, 12px/17px SemiBold */
 .hero-banner-terms {
   position: absolute;
   right: 0;
   bottom: 0;
-  padding: var(--gs-spacing-8) var(--gs-spacing-32) var(--gs-spacing-8) var(--gs-spacing-16);
+  padding: 8px 32px 8px 16px;
   background: rgb(0 0 0 / 20%);
   color: var(--gs-color-white);
-  font: var(--gs-type-body-xsmall-strong);
+  font: normal normal 600 12px / 17px var(--gs-font-body);
 }
 
-/* Carousel arrows — green circle buttons */
+/* Side nav arrows — Figma 40px mint circle + green chevron image */
 .hero-banner-arrow {
   position: absolute;
   top: 50%;
@@ -154,46 +155,32 @@
   height: 40px;
   margin: 0;
   padding: 0;
-  border: var(--shape-border-width-1) solid rgb(0 174 67 / 10%);
+  border: 0;
   border-radius: 32px;
-  background: #f0faf4;
-  color: var(--gs-color-green);
+  background: url('../../icons/hero-arrow.png') center / contain no-repeat;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-banner-arrow::before {
-  font-size: 1.4rem;
-  line-height: 1;
+  font-size: 0;
 }
 
 .hero-banner-arrow--prev {
-  left: var(--gs-spacing-32);
-}
-
-.hero-banner-arrow--prev::before {
-  content: '\2039';
+  left: 36px;
+  transform: translateY(-50%) scaleX(-1);
 }
 
 .hero-banner-arrow--next {
-  right: var(--gs-spacing-32);
-}
-
-.hero-banner-arrow--next::before {
-  content: '\203A';
+  right: 36px;
 }
 
 /* Dot indicators — bottom-centered */
 .hero-banner-dots {
   position: absolute;
-  bottom: var(--gs-spacing-16);
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
   display: flex;
-  gap: var(--gs-spacing-8);
+  align-items: center;
+  gap: 8px;
 }
 
 .hero-banner-dot {
@@ -201,7 +188,7 @@
   height: 14px;
   padding: 0;
   margin: 0;
-  border: var(--shape-border-width-1) solid rgb(255 255 255 / 60%);
+  border: 1px solid rgb(255 255 255 / 60%);
   border-radius: 50%;
   background: transparent;
   cursor: pointer;
@@ -211,18 +198,67 @@
 .hero-banner-dot--active {
   width: 24px;
   height: 24px;
-  border: var(--shape-border-width-1) solid var(--gs-color-white);
+  border: 1px solid var(--gs-color-white);
   background: var(--gs-color-white);
 }
 
-@media (min-width: 900px) {
+/* ---- Tablet (768–1023px) ---- */
+@media (min-width: 768px) {
   .hero-banner-slide {
-    min-height: 600px;
-    padding: var(--gs-spacing-64) var(--gs-spacing-120);
+    min-height: 560px;
+    padding: 60px;
+  }
+
+  .hero-banner-content {
+    max-width: 410px;
   }
 
   .hero-banner-content h1,
   .hero-banner-content h2 {
-    font: var(--gs-type-display-xsmall);
+    font: normal normal 700 40px / 48px var(--gs-font-display);
+  }
+}
+
+/* ---- Desktop (≥1024px): full Figma 1280×720 spec ---- */
+@media (min-width: 1024px) {
+  .hero-banner-slide {
+    min-height: 720px;
+    padding: 60px 120px;
+  }
+
+  .hero-banner-content h1,
+  .hero-banner-content h2 {
+    font: normal normal 700 48px / 58px var(--gs-font-display);
+  }
+}
+
+/* ---- Mobile (<768px): reduced height, scaled headline, stacked CTAs ---- */
+@media (max-width: 767px) {
+  .hero-banner-slide {
+    min-height: 420px;
+    padding: 32px 20px;
+  }
+
+  .hero-banner-content {
+    max-width: 100%;
+    gap: 12px;
+  }
+
+  .hero-banner-content > p:first-child {
+    font: normal normal 700 16px / 20px var(--gs-font-display);
+  }
+
+  .hero-banner-content h1,
+  .hero-banner-content h2 {
+    font: normal normal 700 32px / 38px var(--gs-font-display);
+  }
+
+  .hero-banner-content a.button,
+  .hero-banner-content a.button:any-link {
+    margin-right: 0;
+  }
+
+  .hero-banner-arrow {
+    display: none;
   }
 }
