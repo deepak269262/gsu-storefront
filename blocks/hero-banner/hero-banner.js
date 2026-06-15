@@ -94,21 +94,53 @@ export default function decorate(block) {
     current = target;
   };
 
-  dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
+  // --- Autoplay: advance every 5s with fade; pause on hover/focus ---
+  const AUTOPLAY_MS = 5000;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let timer = null;
+
+  const stopAutoplay = () => {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  };
+
+  const startAutoplay = () => {
+    if (reduceMotion) return;
+    stopAutoplay();
+    timer = setInterval(() => show(current + 1), AUTOPLAY_MS);
+  };
+
+  // Manual nav advances AND restarts the timer so it doesn't immediately jump.
+  const go = (index) => {
+    show(index);
+    startAutoplay();
+  };
+
+  dots.forEach((dot, i) => dot.addEventListener('click', () => go(i)));
 
   const prevBtn = document.createElement('button');
   prevBtn.type = 'button';
   prevBtn.className = 'hero-banner-arrow hero-banner-arrow--prev';
   prevBtn.setAttribute('aria-label', 'Previous slide');
-  prevBtn.addEventListener('click', () => show(current - 1));
+  prevBtn.addEventListener('click', () => go(current - 1));
 
   const nextBtn = document.createElement('button');
   nextBtn.type = 'button';
   nextBtn.className = 'hero-banner-arrow hero-banner-arrow--next';
   nextBtn.setAttribute('aria-label', 'Next slide');
-  nextBtn.addEventListener('click', () => show(current + 1));
+  nextBtn.addEventListener('click', () => go(current + 1));
 
   block.append(prevBtn, nextBtn, dotsWrapper);
   slides[0].classList.add('hero-banner-slide--active');
   show(0);
+
+  // Pause on hover / keyboard focus; resume on leave / blur.
+  block.addEventListener('mouseenter', stopAutoplay);
+  block.addEventListener('mouseleave', startAutoplay);
+  block.addEventListener('focusin', stopAutoplay);
+  block.addEventListener('focusout', startAutoplay);
+
+  startAutoplay();
 }

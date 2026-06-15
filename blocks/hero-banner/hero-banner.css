@@ -69,9 +69,10 @@
   color: var(--gs-color-white);
 }
 
-/* Eyebrow — Girl Scout Bold 20px/24px */
+/* Eyebrow — Girl Scout Bold 20px/24px; tight 8px gap to the headline (Figma) */
 .hero-banner-content > p:first-child {
   font: normal normal 700 20px / 24px var(--gs-font-display);
+  margin-bottom: -8px;
 }
 
 /* Headline — Girl Scout Bold 48px/58px */
@@ -112,24 +113,32 @@
   color: var(--gs-color-forest-green);
 }
 
-/* Secondary CTA — ghost text link with arrow, radius 10px */
+/* Secondary CTA — ghost text link with arrow, radius 10px.
+   Targets .secondary when present, and falls back to the second CTA
+   (last button-container) since the .secondary class may not survive authoring. */
 .hero-banner-content a.button.secondary,
-.hero-banner-content a.button.secondary:any-link {
+.hero-banner-content a.button.secondary:any-link,
+.hero-banner-content .button-container:last-of-type a.button,
+.hero-banner-content .button-container:last-of-type a.button:any-link {
   height: 37px;
   border: 0;
   border-radius: 10px;
   padding: 8px 0;
   background: transparent;
   color: var(--gs-color-white);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-.hero-banner-content a.button.secondary::after {
+.hero-banner-content a.button.secondary::after,
+.hero-banner-content .button-container:last-of-type a.button::after {
   content: '\203A';
   font-size: 1.2em;
   line-height: 1;
 }
 
-.hero-banner-content a.button.secondary:hover {
+.hero-banner-content a.button.secondary:hover,
+.hero-banner-content .button-container:last-of-type a.button:hover {
   background: transparent;
   color: var(--gs-color-star-green);
 }
@@ -184,38 +193,47 @@
 }
 
 .hero-banner-dot {
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
   padding: 0;
   margin: 0;
-  border: 1px solid rgb(255 255 255 / 60%);
+  border: 0;
   border-radius: 50%;
-  background: transparent;
+  background: rgb(255 255 255 / 50%);
   cursor: pointer;
   box-sizing: border-box;
+  transition: background 0.2s ease;
 }
 
 .hero-banner-dot--active {
-  width: 24px;
-  height: 24px;
-  border: 1px solid var(--gs-color-white);
+  width: 10px;
+  height: 10px;
   background: var(--gs-color-white);
 }
 
-/* ---- Tablet (768–1023px) ---- */
-@media (min-width: 768px) {
+/* ---- Tablet (768–1023px): 16:9, 48/24 pad, 110deg gradient, no side arrows ---- */
+@media (min-width: 768px) and (max-width: 1023px) {
   .hero-banner-slide {
-    min-height: 560px;
-    padding: 60px;
+    min-height: 432px;
+    padding: 48px 24px;
+  }
+
+  .hero-banner-slide::before {
+    background: linear-gradient(110deg, rgb(145 113 64 / 98%) 0%, rgb(168 138 92 / 39%) 31%, rgb(168 138 92 / 0%) 100%);
   }
 
   .hero-banner-content {
-    max-width: 410px;
+    max-width: 460px;
   }
 
   .hero-banner-content h1,
   .hero-banner-content h2 {
     font: normal normal 700 40px / 48px var(--gs-font-display);
+  }
+
+  /* Tablet uses bottom dots only — hide side circle arrows */
+  .hero-banner-arrow {
+    display: none;
   }
 }
 
@@ -232,11 +250,22 @@
   }
 }
 
-/* ---- Mobile (<768px): reduced height, scaled headline, stacked CTAs ---- */
+/* ---- Mobile (<768px): 3:4 portrait, 32/16 pad, 145deg gradient, stacked CTAs ---- */
 @media (max-width: 767px) {
   .hero-banner-slide {
-    min-height: 420px;
-    padding: 32px 20px;
+    min-height: 0;
+    aspect-ratio: 3 / 4;
+    padding: 32px 16px;
+    align-items: flex-start;
+  }
+
+  .hero-banner-slide::before {
+    background: linear-gradient(145deg, rgb(145 113 64 / 98%) 0%, rgb(168 138 92 / 39%) 31%, rgb(168 138 92 / 0%) 100%);
+  }
+
+  /* Photo positioned lower/centered so the subject sits in the lower frame */
+  .hero-banner-bg img {
+    object-position: center bottom;
   }
 
   .hero-banner-content {
@@ -253,12 +282,25 @@
     font: normal normal 700 32px / 38px var(--gs-font-display);
   }
 
+  /* Stack CTAs vertically */
+  .hero-banner-content .button-container {
+    display: block;
+  }
+
   .hero-banner-content a.button,
   .hero-banner-content a.button:any-link {
-    margin-right: 0;
+    margin: 8px 0 0;
   }
 
   .hero-banner-arrow {
     display: none;
+  }
+
+  /* Center the terms label at the bottom */
+  .hero-banner-terms {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    text-align: center;
   }
 }
