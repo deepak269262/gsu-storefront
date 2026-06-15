@@ -56,23 +56,23 @@ var CustomImportScript = (() => {
         { label: "Donate", href: "/donate" },
         { label: "Lifetime Membership", href: "/lifetime-membership" }
       ]
-    },
-    {
-      heading: "Local Resources",
-      links: [
-        { label: "Find your Nearest Store", href: "/store-locator" },
-        { label: "Find your local council", href: "/find-council" },
-        { label: "Find Cookies", href: "/find-cookies" }
-      ]
     }
   ];
+  var LOCAL_RESOURCES = {
+    heading: "Local Resources",
+    links: [
+      { label: "Find your Nearest Store", href: "/store-locator" },
+      { label: "Find your local council", href: "/find-council" },
+      { label: "Find Cookies", href: "/find-cookies" }
+    ]
+  };
   var SOCIAL = [
-    { label: "Facebook", href: "https://facebook.com/girlscouts" },
-    { label: "X", href: "https://x.com/girlscouts" },
-    { label: "YouTube", href: "https://youtube.com/girlscouts" },
-    { label: "Instagram", href: "https://instagram.com/girlscouts" },
-    { label: "LinkedIn", href: "https://linkedin.com/company/girl-scouts-of-the-usa" },
-    { label: "WhatsApp", href: "https://wa.me/girlscouts" }
+    { label: "Facebook", icon: "facebook", href: "https://facebook.com/girlscouts" },
+    { label: "X", icon: "x", href: "https://x.com/girlscouts" },
+    { label: "YouTube", icon: "youtube", href: "https://youtube.com/girlscouts" },
+    { label: "Instagram", icon: "instagram", href: "https://instagram.com/girlscouts" },
+    { label: "LinkedIn", icon: "linkedin", href: "https://linkedin.com/company/girl-scouts-of-the-usa" },
+    { label: "WhatsApp", icon: "whatsapp", href: "https://wa.me/girlscouts" }
   ];
   var LEGAL = [
     { label: "Privacy Policy", href: "/privacy" },
@@ -106,6 +106,11 @@ var CustomImportScript = (() => {
   function parse(element, { document }) {
     const nodes = [];
     const hr = () => document.createElement("hr");
+    const pushSection = (contentEl, style, isFirst = false) => {
+      if (!isFirst) nodes.push(hr());
+      contentEl.append(sectionMetadata(document, style));
+      nodes.push(contentEl);
+    };
     const brand = document.createElement("div");
     const brandP = document.createElement("p");
     const brandA = document.createElement("a");
@@ -114,30 +119,10 @@ var CustomImportScript = (() => {
     brandA.textContent = BRAND.label;
     brandP.append(brandA);
     brand.append(brandP);
-    nodes.push(brand);
+    pushSection(brand, "footer-row-top, footer-brand", true);
     COLUMNS.forEach((col) => {
-      nodes.push(hr());
-      nodes.push(linkColumn(document, col));
+      pushSection(linkColumn(document, col), "footer-row-top, footer-links");
     });
-    nodes.push(hr());
-    const social = document.createElement("div");
-    const socialH = document.createElement("h3");
-    socialH.textContent = "Follow Us On";
-    social.append(socialH);
-    const socialUl = document.createElement("ul");
-    SOCIAL.forEach(({ label, href }) => {
-      const li = document.createElement("li");
-      const a = document.createElement("a");
-      a.href = href;
-      a.title = label;
-      a.textContent = label;
-      li.append(a);
-      socialUl.append(li);
-    });
-    social.append(socialUl);
-    social.append(sectionMetadata(document, "footer-social"));
-    nodes.push(social);
-    nodes.push(hr());
     const newsletter = document.createElement("div");
     const nlH = document.createElement("h3");
     nlH.textContent = "Be the first to know what's new!";
@@ -152,9 +137,24 @@ var CustomImportScript = (() => {
     nlCta.textContent = "Subscribe Now";
     nlCtaP.append(nlCta);
     newsletter.append(nlH, nlBody, nlCtaP);
-    newsletter.append(sectionMetadata(document, "footer-newsletter"));
-    nodes.push(newsletter);
-    nodes.push(hr());
+    pushSection(newsletter, "footer-row-top, footer-newsletter");
+    pushSection(linkColumn(document, LOCAL_RESOURCES), "footer-row-mid, footer-links, footer-local");
+    const social = document.createElement("div");
+    const socialH = document.createElement("h3");
+    socialH.textContent = "Follow Us On";
+    social.append(socialH);
+    const socialUl = document.createElement("ul");
+    SOCIAL.forEach(({ label, icon, href }) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = href;
+      a.title = label;
+      a.textContent = `:${icon}:`;
+      li.append(a);
+      socialUl.append(li);
+    });
+    social.append(socialUl);
+    pushSection(social, "footer-row-mid, footer-social");
     const wholesale = document.createElement("div");
     const whH = document.createElement("h3");
     whH.textContent = "Hello, Wholesale Partners";
@@ -165,9 +165,7 @@ var CustomImportScript = (() => {
     whLink.textContent = "Login Here";
     whBody.append(whLink, " for your personalized Experience");
     wholesale.append(whH, whBody);
-    wholesale.append(sectionMetadata(document, "footer-wholesale"));
-    nodes.push(wholesale);
-    nodes.push(hr());
+    pushSection(wholesale, "footer-row-mid, footer-wholesale");
     const legal = document.createElement("div");
     const legalP = document.createElement("p");
     LEGAL.forEach(({ label, href }, i) => {
@@ -181,8 +179,7 @@ var CustomImportScript = (() => {
     const copyright = document.createElement("p");
     copyright.textContent = "\xA9 2025 Girl Scouts of the USA";
     legal.append(legalP, copyright);
-    legal.append(sectionMetadata(document, "footer-legal"));
-    nodes.push(legal);
+    pushSection(legal, "footer-row-bottom, footer-legal");
     element.replaceChildren(...nodes);
   }
 

@@ -4,17 +4,15 @@
  * Parser for the site footer document (/footer).
  * Authors the Girl Scouts footer per Figma (Footer 5168:208610).
  *
- * Structure (each area is its own section, separated by <hr> so the renderer
- * emits sibling section divs that footer.css lays out as grid columns):
- *   1. Brand logo / wordmark
- *   2. Quick Links column
- *   3. Help Center column
- *   4. About Us column
- *   5. Local Resources column
- *   6. Follow Us On — social links  (Section Metadata style: footer-social)
- *   7. Newsletter card               (Section Metadata style: footer-newsletter)
- *   8. Wholesale partners box        (Section Metadata style: footer-wholesale)
- *   9. Legal / copyright bar         (Section Metadata style: footer-legal)
+ * Three stacked rows, each section tagged with a row class + a component class
+ * via Section Metadata so footer.js can group sections and footer.css can place
+ * them:
+ *   Row TOP (footer-row-top):   brand | Quick Links | Help Center | About Us | Newsletter
+ *   Row MID (footer-row-mid):   Local Resources | Follow Us On (social) | Wholesale
+ *   Row BOT (footer-row-bottom):Legal links + copyright
+ *
+ * Component classes: footer-brand, footer-links, footer-newsletter,
+ * footer-social, footer-wholesale, footer-legal.
  */
 
 const BRAND = { label: 'Girl Scouts', href: '/' };
@@ -50,23 +48,26 @@ const COLUMNS = [
       { label: 'Lifetime Membership', href: '/lifetime-membership' },
     ],
   },
-  {
-    heading: 'Local Resources',
-    links: [
-      { label: 'Find your Nearest Store', href: '/store-locator' },
-      { label: 'Find your local council', href: '/find-council' },
-      { label: 'Find Cookies', href: '/find-cookies' },
-    ],
-  },
 ];
 
+const LOCAL_RESOURCES = {
+  heading: 'Local Resources',
+  links: [
+    { label: 'Find your Nearest Store', href: '/store-locator' },
+    { label: 'Find your local council', href: '/find-council' },
+    { label: 'Find Cookies', href: '/find-cookies' },
+  ],
+};
+
+// Social links use icon tokens (:facebook: etc.) so EDS renders inline SVGs
+// from the icons/ folder. footer.js also adds accessible labels.
 const SOCIAL = [
-  { label: 'Facebook', href: 'https://facebook.com/girlscouts' },
-  { label: 'X', href: 'https://x.com/girlscouts' },
-  { label: 'YouTube', href: 'https://youtube.com/girlscouts' },
-  { label: 'Instagram', href: 'https://instagram.com/girlscouts' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/company/girl-scouts-of-the-usa' },
-  { label: 'WhatsApp', href: 'https://wa.me/girlscouts' },
+  { label: 'Facebook', icon: 'facebook', href: 'https://facebook.com/girlscouts' },
+  { label: 'X', icon: 'x', href: 'https://x.com/girlscouts' },
+  { label: 'YouTube', icon: 'youtube', href: 'https://youtube.com/girlscouts' },
+  { label: 'Instagram', icon: 'instagram', href: 'https://instagram.com/girlscouts' },
+  { label: 'LinkedIn', icon: 'linkedin', href: 'https://linkedin.com/company/girl-scouts-of-the-usa' },
+  { label: 'WhatsApp', icon: 'whatsapp', href: 'https://wa.me/girlscouts' },
 ];
 
 const LEGAL = [
@@ -105,7 +106,16 @@ export default function parse(element, { document }) {
   const nodes = [];
   const hr = () => document.createElement('hr');
 
-  // 1. Brand
+  // Append a section's content + its Section Metadata, with a leading <hr>
+  // for every section after the first.
+  const pushSection = (contentEl, style, isFirst = false) => {
+    if (!isFirst) nodes.push(hr());
+    contentEl.append(sectionMetadata(document, style));
+    nodes.push(contentEl);
+  };
+
+  // --- ROW TOP ---
+  // Brand
   const brand = document.createElement('div');
   const brandP = document.createElement('p');
   const brandA = document.createElement('a');
@@ -114,36 +124,14 @@ export default function parse(element, { document }) {
   brandA.textContent = BRAND.label;
   brandP.append(brandA);
   brand.append(brandP);
-  nodes.push(brand);
+  pushSection(brand, 'footer-row-top, footer-brand', true);
 
-  // 2-5. Link columns
+  // Link columns (Quick Links, Help Center, About Us)
   COLUMNS.forEach((col) => {
-    nodes.push(hr());
-    nodes.push(linkColumn(document, col));
+    pushSection(linkColumn(document, col), 'footer-row-top, footer-links');
   });
 
-  // 6. Social
-  nodes.push(hr());
-  const social = document.createElement('div');
-  const socialH = document.createElement('h3');
-  socialH.textContent = 'Follow Us On';
-  social.append(socialH);
-  const socialUl = document.createElement('ul');
-  SOCIAL.forEach(({ label, href }) => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = href;
-    a.title = label;
-    a.textContent = label;
-    li.append(a);
-    socialUl.append(li);
-  });
-  social.append(socialUl);
-  social.append(sectionMetadata(document, 'footer-social'));
-  nodes.push(social);
-
-  // 7. Newsletter card
-  nodes.push(hr());
+  // Newsletter card (right rail of top row)
   const newsletter = document.createElement('div');
   const nlH = document.createElement('h3');
   nlH.textContent = "Be the first to know what's new!";
@@ -158,11 +146,32 @@ export default function parse(element, { document }) {
   nlCta.textContent = 'Subscribe Now';
   nlCtaP.append(nlCta);
   newsletter.append(nlH, nlBody, nlCtaP);
-  newsletter.append(sectionMetadata(document, 'footer-newsletter'));
-  nodes.push(newsletter);
+  pushSection(newsletter, 'footer-row-top, footer-newsletter');
 
-  // 8. Wholesale partners box
-  nodes.push(hr());
+  // --- ROW MID ---
+  // Local Resources
+  pushSection(linkColumn(document, LOCAL_RESOURCES), 'footer-row-mid, footer-links, footer-local');
+
+  // Social
+  const social = document.createElement('div');
+  const socialH = document.createElement('h3');
+  socialH.textContent = 'Follow Us On';
+  social.append(socialH);
+  const socialUl = document.createElement('ul');
+  SOCIAL.forEach(({ label, icon, href }) => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = href;
+    a.title = label;
+    // Icon token => EDS span.icon.icon-<name>; footer.js inlines the SVG.
+    a.textContent = `:${icon}:`;
+    li.append(a);
+    socialUl.append(li);
+  });
+  social.append(socialUl);
+  pushSection(social, 'footer-row-mid, footer-social');
+
+  // Wholesale partners box
   const wholesale = document.createElement('div');
   const whH = document.createElement('h3');
   whH.textContent = 'Hello, Wholesale Partners';
@@ -173,11 +182,9 @@ export default function parse(element, { document }) {
   whLink.textContent = 'Login Here';
   whBody.append(whLink, ' for your personalized Experience');
   wholesale.append(whH, whBody);
-  wholesale.append(sectionMetadata(document, 'footer-wholesale'));
-  nodes.push(wholesale);
+  pushSection(wholesale, 'footer-row-mid, footer-wholesale');
 
-  // 9. Legal / copyright bar
-  nodes.push(hr());
+  // --- ROW BOTTOM ---
   const legal = document.createElement('div');
   const legalP = document.createElement('p');
   LEGAL.forEach(({ label, href }, i) => {
@@ -191,8 +198,7 @@ export default function parse(element, { document }) {
   const copyright = document.createElement('p');
   copyright.textContent = '© 2025 Girl Scouts of the USA';
   legal.append(legalP, copyright);
-  legal.append(sectionMetadata(document, 'footer-legal'));
-  nodes.push(legal);
+  pushSection(legal, 'footer-row-bottom, footer-legal');
 
   element.replaceChildren(...nodes);
 }

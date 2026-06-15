@@ -169,4 +169,94 @@ export default async function decorate(block) {
   while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
 
   block.append(footer);
+
+  decorateFooterLayout(footer);
+}
+
+/**
+ * Replaces social link icon tokens (":facebook:") with inline SVGs so they
+ * inherit the link color. Fetches each SVG from the icons/ folder once.
+ * @param {Element} footer The footer content container
+ */
+async function decorateSocialIcons(footer) {
+  const links = [...footer.querySelectorAll('.footer-social a')];
+  await Promise.all(links.map(async (a) => {
+    const match = a.textContent.trim().match(/^:([a-z0-9-]+):$/i);
+    if (!match) return;
+    const name = match[1];
+    if (!a.getAttribute('aria-label')) a.setAttribute('aria-label', a.title || name);
+    try {
+      const resp = await fetch(`${window.hlx.codeBasePath}/icons/${name}.svg`);
+      if (!resp.ok) return;
+      const svg = await resp.text();
+      a.innerHTML = svg;
+    } catch (e) {
+      // Leave the label text if the icon can't be fetched.
+    }
+  }));
+}
+
+/**
+ * Groups the authored footer sections (each tagged with a footer-row-* style
+ * class) into three row wrappers and enables the mobile accordion on link
+ * columns. Safe no-op when the row classes are absent.
+ * @param {Element} footer The footer content container
+ */
+function decorateFooterLayout(footer) {
+  const sections = [...footer.querySelectorAll(':scope > .section')];
+  const rowFor = (el) => {
+    if (el.classList.contains('footer-row-top')) return 'top';
+    if (el.classList.contains('footer-row-mid')) return 'mid';
+    if (el.classList.contains('footer-row-bottom')) return 'bottom';
+    return null;
+  };
+
+  if (!sections.some(rowFor)) return;
+
+  // Convert social link icon tokens (":facebook:") into inline SVGs so they
+  // inherit the link color (white / hover). The token text round-trips
+  // literally through the fragment, so we normalise + inline here.
+  decorateSocialIcons(footer);
+
+  const rows = {};
+  sections.forEach((section) => {
+    const row = rowFor(section);
+    if (!row) return;
+    if (!rows[row]) {
+      const wrapper = document.createElement('div');
+      wrapper.className = `footer-row footer-row--${row}`;
+      section.before(wrapper);
+      rows[row] = wrapper;
+    }
+    rows[row].append(section);
+  });
+
+  // Mobile accordion: tapping a link-column heading toggles its list.
+  const mql = window.matchMedia('(max-width: 767px)');
+  footer.querySelectorAll('.section.footer-links').forEach((col) => {
+    const heading = col.querySelector('h3, h2, h4');
+    const list = col.querySelector('ul');
+    if (!heading || !list) return;
+
+    heading.setAttribute('role', 'button');
+    heading.setAttribute('tabindex', '0');
+    const setExpanded = (expanded) => {
+      col.classList.toggle('footer-links--expanded', expanded);
+      heading.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    };
+    setExpanded(!mql.matches);
+
+    const toggle = () => {
+      if (!mql.matches) return;
+      setExpanded(!col.classList.contains('footer-links--expanded'));
+    };
+    heading.addEventListener('click', toggle);
+    heading.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle();
+      }
+    });
+    mql.addEventListener('change', () => setExpanded(!mql.matches));
+  });
 }
