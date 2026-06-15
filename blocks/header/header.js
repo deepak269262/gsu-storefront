@@ -173,6 +173,17 @@ export default async function decorate(block) {
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
 
+  // Pull the authored offer-bar section (flagged with class/style "nav-offer-bar")
+  // out of the nav before the index-based brand/sections/tools mapping so it
+  // doesn't shift the indices. It is re-inserted above the nav wrapper later.
+  const offerSection = nav.querySelector('.section.nav-offer-bar')
+    || [...nav.children].find((sec) => /nav-offer-bar/.test(sec.className));
+  if (offerSection) {
+    offerSection.classList.add('nav-offer-bar');
+    offerSection.querySelectorAll('.section-metadata').forEach((sm) => sm.remove());
+    offerSection.remove();
+  }
+
   const classes = ['brand', 'sections', 'tools'];
   classes.forEach((c, i) => {
     const section = nav.children[i];
@@ -496,6 +507,8 @@ export default async function decorate(block) {
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
+  // Offer bar sits above the nav (full-width promo strip).
+  if (offerSection) block.append(offerSection);
   block.append(navWrapper);
 
   navWrapper.addEventListener('mouseout', (e) => {
@@ -534,19 +547,17 @@ export default async function decorate(block) {
   );
   renderAuthDropdown(navTools);
 
-  decorateOfferBar(nav);
-  decorateAudienceToggle(nav);
+  decorateOfferBar(offerSection);
+  injectAudienceToggle(nav);
+  decorateStoreLocator(navSections);
 }
 
 /**
- * Makes the GS promo/offer bar dismissible if the nav fragment provides one.
- * Looks for an authored element flagged with .nav-offer-bar (or adds the class
- * to the first section when authored with a leading "offer" marker).
- * @param {Element} nav The decorated nav element
+ * Makes the GS promo/offer bar dismissible. The offer content is authored in
+ * the nav fragment (flagged nav-offer-bar) and extracted above the nav.
+ * @param {Element} offerBar The extracted offer-bar section (or null)
  */
-function decorateOfferBar(nav) {
-  const offerBar = nav.parentElement.querySelector('.nav-offer-bar')
-    || document.querySelector('header .nav-offer-bar');
+function decorateOfferBar(offerBar) {
   if (!offerBar || offerBar.querySelector('.nav-offer-dismiss')) return;
 
   const dismiss = document.createElement('button');
@@ -560,19 +571,39 @@ function decorateOfferBar(nav) {
 }
 
 /**
- * Wires the For Everyone / For Leaders audience toggle if authored.
- * Buttons toggle aria-pressed; links with hrefs are left to navigate.
+ * Injects the For Everyone / For Leaders audience toggle into the brand row.
+ * This is a fixed UI control (not authored content); the first option is active.
  * @param {Element} nav The decorated nav element
  */
-function decorateAudienceToggle(nav) {
-  const toggle = nav.querySelector('.nav-audience-toggle');
-  if (!toggle) return;
+function injectAudienceToggle(nav) {
+  const brand = nav.querySelector('.nav-brand');
+  if (!brand || nav.querySelector('.nav-audience-toggle')) return;
 
-  const buttons = [...toggle.querySelectorAll('button')];
-  buttons.forEach((btn) => {
-    btn.classList.add('nav-audience-option');
+  const toggle = document.createElement('div');
+  toggle.className = 'nav-audience-toggle';
+  [['For Everyone', true], ['For Leaders', false]].forEach(([label, active]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'nav-audience-option';
+    btn.textContent = label;
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     btn.addEventListener('click', () => {
-      buttons.forEach((b) => b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'));
+      toggle.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'));
     });
+    toggle.append(btn);
   });
+  brand.prepend(toggle);
+}
+
+/**
+ * Tags the "Store Locator" category link so it renders as the rounded pill
+ * at the end of the nav row (Figma Round Tabs).
+ * @param {Element} navSections The nav sections element
+ */
+function decorateStoreLocator(navSections) {
+  if (!navSections) return;
+  const link = [...navSections.querySelectorAll('a')].find(
+    (a) => a.textContent.trim().toLowerCase() === 'store locator',
+  );
+  if (link) link.closest('li')?.classList.add('nav-store-locator');
 }

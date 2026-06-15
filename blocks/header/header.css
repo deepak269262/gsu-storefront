@@ -164,7 +164,7 @@ li.nav-drop img {
 }
 
 header nav .nav-brand img {
-  width: 128px;
+  width: 154px;
   height: auto;
 }
 
@@ -777,34 +777,69 @@ header .nav-search-input .search_autocomplete .popover-container {
    matching markup (offer bar, audience toggle, store-locator pill).
    ========================================================================== */
 
-/* Offer / promo bar — top strip, star-green background */
+/* Offer / promo bar — top strip, star-green #d5f267, padding 8px 56px (Figma) */
 header .nav-offer-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--gs-spacing-8);
   position: relative;
   background-color: var(--gs-color-star-green);
   color: var(--gs-color-black);
-  font: var(--gs-type-body-small);
-  padding: var(--gs-spacing-12) var(--gs-spacing-48);
-  text-align: center;
+  padding: 8px 56px;
 }
 
-header .nav-offer-bar .nav-offer-link {
+/* Inline the offer content (text + Redeem + Terms) */
+header .nav-offer-bar .default-content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: unset;
+  margin: 0;
+  padding: 0;
+}
+
+header .nav-offer-bar p {
+  margin: 0;
+  font: normal normal 500 14px / 20px var(--gs-font-body);
+}
+
+header .nav-offer-bar .button-container {
+  margin: 0;
+}
+
+/* Reset the EDS .button treatment on offer links */
+header .nav-offer-bar a.button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  white-space: nowrap;
+}
+
+/* Redeem Now — uppercase forest-green link with arrow */
+header .nav-offer-bar .button-container:first-of-type a.button {
   color: var(--gs-color-forest-green);
-  font: var(--gs-type-body-small-strong);
+  font: normal normal 600 14px / 18px var(--gs-font-body);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
 }
 
-header .nav-offer-bar .nav-offer-terms {
+header .nav-offer-bar .button-container:first-of-type a.button::after {
+  content: '\203A';
+  margin-left: 4px;
+}
+
+/* Terms & Conditions — pushed to the right, before the dismiss button */
+header .nav-offer-bar .button-container:last-of-type {
   margin-left: auto;
+  margin-right: 40px;
+}
+
+header .nav-offer-bar .button-container:last-of-type a.button {
+  color: var(--gs-color-forest-green);
+  font: normal normal 600 12px / 17px var(--gs-font-body);
 }
 
 header .nav-offer-bar .nav-offer-dismiss {
   position: absolute;
-  right: var(--gs-spacing-16);
+  right: 56px;
   top: 50%;
   transform: translateY(-50%);
   width: 24px;
@@ -819,21 +854,23 @@ header .nav-offer-bar[hidden] {
   display: none;
 }
 
-/* Audience toggle pill — For Everyone / For Leaders */
+/* Audience toggle pill — For Everyone / For Leaders (#f6f3ec track, 8px radius) */
 header .nav-audience-toggle {
   display: inline-flex;
   align-items: center;
-  border: var(--shape-border-width-1) solid var(--gs-color-border);
-  border-radius: var(--shape-border-radius-3);
-  overflow: hidden;
+  border: var(--shape-border-width-1) solid var(--gs-color-cloud);
+  border-radius: 8px;
+  background-color: var(--gs-color-off-white);
+  padding: 0;
 }
 
 header .nav-audience-toggle .nav-audience-option {
   border: 0;
   background: transparent;
   margin: 0;
-  padding: var(--gs-spacing-8) var(--gs-spacing-16);
-  font: var(--gs-type-body-small-strong);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font: normal normal 400 12px / 17px var(--gs-font-body);
   color: var(--gs-color-dark-grey);
   cursor: pointer;
 }
@@ -844,16 +881,52 @@ header .nav-audience-toggle .nav-audience-option[aria-current='true'] {
   color: var(--gs-color-white);
 }
 
-/* Category nav row — sits below the brand bar, off-white background */
+/* GS header layout: brand row (toggle | logo | tools) on top, full-width
+   category nav as a second row below. */
 @media (min-width: 900px) {
+  header nav {
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: unset;
+    padding: 16px 56px 0;
+    gap: 0 24px;
+  }
+
+  /* Brand row: toggle + logo grouped at left, tools at right */
+  header nav .nav-brand {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    justify-content: flex-start;
+    padding-bottom: 16px;
+  }
+
+  header nav .nav-tools {
+    flex: 1 1 0;
+    justify-content: flex-end;
+  }
+
+  /* Category nav takes a full-width second row */
   header nav .nav-sections {
-    background-color: var(--gs-color-off-white);
+    order: 3;
+    flex: 0 0 100%;
+    width: 100%;
+    margin: 16px -56px 0;
+    padding: 0 56px;
+    background-color: rgb(226 219 193 / 22%);
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul {
+    justify-content: center;
+    gap: 32px;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li,
   header nav .nav-sections .default-content-wrapper > ul > li > a {
-    font: var(--gs-type-body-medium);
+    font: normal normal 400 16px / 22px var(--gs-font-body);
     color: var(--gs-color-black);
+    padding: 12px 4px;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li:hover,
@@ -862,14 +935,18 @@ header .nav-audience-toggle .nav-audience-option[aria-current='true'] {
   }
 }
 
-/* Store Locator pill — khaki-tinted rounded tab */
+/* Store Locator pill — khaki-tinted rounded tab (#d5ca9f4d, 24px radius) */
 header .nav-store-locator {
   display: inline-flex;
   align-items: center;
-  gap: var(--gs-spacing-8);
-  border-radius: var(--shape-border-radius-3);
+  gap: 8px;
+  border-radius: 24px;
   background-color: rgb(213 202 159 / 30%);
-  padding: var(--gs-spacing-4) var(--gs-spacing-12);
-  font: var(--gs-type-body-small);
+  padding: 2px 12px;
+  font: normal normal 400 14px / 21px var(--gs-font-body);
   color: var(--gs-color-black);
+}
+
+header .nav-store-locator:hover {
+  background-color: rgb(213 202 159 / 50%);
 }
