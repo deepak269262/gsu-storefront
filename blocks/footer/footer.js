@@ -174,65 +174,95 @@ export default async function decorate(block) {
 }
 
 /**
- * Replaces social link icon tokens (":facebook:") with inline SVGs so they
- * inherit the link color. Fetches each SVG from the icons/ folder once.
- * @param {Element} footer The footer content container
+ * Replaces an icon token (":name:") inside a link with the inline SVG from the
+ * icons/ folder so it inherits the link color. No-op if the link has no token.
+ * @param {HTMLAnchorElement} a
  */
-async function decorateSocialIcons(footer) {
-  const links = [...footer.querySelectorAll('.footer-social a')];
-  await Promise.all(links.map(async (a) => {
-    const match = a.textContent.trim().match(/^:([a-z0-9-]+):$/i);
-    if (!match) return;
-    const name = match[1];
-    if (!a.getAttribute('aria-label')) a.setAttribute('aria-label', a.title || name);
-    try {
-      const resp = await fetch(`${window.hlx.codeBasePath}/icons/${name}.svg`);
-      if (!resp.ok) return;
-      const svg = await resp.text();
-      a.innerHTML = svg;
-    } catch (e) {
-      // Leave the label text if the icon can't be fetched.
-    }
-  }));
+async function inlineIconLink(a) {
+  const match = a.textContent.trim().match(/^:([a-z0-9-]+):$/i);
+  if (!match) return;
+  const name = match[1];
+  if (!a.getAttribute('aria-label')) a.setAttribute('aria-label', a.title || name);
+  try {
+    const resp = await fetch(`${window.hlx.codeBasePath}/icons/${name}.svg`);
+    if (!resp.ok) return;
+    a.innerHTML = await resp.text();
+  } catch (e) {
+    // Leave the label text if the icon can't be fetched.
+  }
 }
 
 /**
- * Groups the authored footer sections (each tagged with a footer-row-* style
- * class) into three row wrappers and enables the mobile accordion on link
- * columns. Safe no-op when the row classes are absent.
+ * Inlines the brand logo + social icon SVGs so they render as vector glyphs.
+ * @param {Element} footer The footer content container
+ */
+async function decorateSocialIcons(footer) {
+  const links = [
+    ...footer.querySelectorAll('.footer-brand a'),
+    ...footer.querySelectorAll('.footer-social a'),
+  ];
+  await Promise.all(links.map(inlineIconLink));
+}
+
+/**
+ * Restructures the authored footer sections into the Figma 3-column desktop
+ * layout (brand | center | rail) with a full-width legal bar, and wires the
+ * accordion behaviour used on tablet/mobile. Safe no-op when the expected
+ * component classes are absent.
  * @param {Element} footer The footer content container
  */
 function decorateFooterLayout(footer) {
   const sections = [...footer.querySelectorAll(':scope > .section')];
-  const rowFor = (el) => {
-    if (el.classList.contains('footer-row-top')) return 'top';
-    if (el.classList.contains('footer-row-mid')) return 'mid';
-    if (el.classList.contains('footer-row-bottom')) return 'bottom';
-    return null;
-  };
+  const pick = (cls) => sections.filter((s) => s.classList.contains(cls));
+  const brand = pick('footer-brand');
+  const links = pick('footer-links');
+  if (!brand.length && !links.length) return;
 
-  if (!sections.some(rowFor)) return;
-
-  // Convert social link icon tokens (":facebook:") into inline SVGs so they
-  // inherit the link color (white / hover). The token text round-trips
-  // literally through the fragment, so we normalise + inline here.
+  // Inline the brand logo + social SVGs so they render as vector glyphs.
   decorateSocialIcons(footer);
 
-  const rows = {};
-  sections.forEach((section) => {
-    const row = rowFor(section);
-    if (!row) return;
-    if (!rows[row]) {
-      const wrapper = document.createElement('div');
-      wrapper.className = `footer-row footer-row--${row}`;
-      section.before(wrapper);
-      rows[row] = wrapper;
-    }
-    rows[row].append(section);
-  });
+  const make = (cls) => {
+    const el = document.createElement('div');
+    el.className = cls;
+    return el;
+  };
 
-  // Mobile accordion: tapping a link-column heading toggles its list.
-  const mql = window.matchMedia('(max-width: 767px)');
+  // Quick/Help/About = link columns that are NOT Local Resources.
+  const primaryLinks = links.filter((s) => !s.classList.contains('footer-local'));
+  const localCol = pick('footer-local');
+  const social = pick('footer-social');
+  const newsletter = pick('footer-newsletter');
+  const wholesale = pick('footer-wholesale');
+  const legal = pick('footer-legal');
+
+  // Center column: row 1 (primary link columns) + divider + row 2 (local + social)
+  const centerRow1 = make('footer-center-row footer-center-row--primary');
+  primaryLinks.forEach((s) => centerRow1.append(s));
+  const centerRow2 = make('footer-center-row footer-center-row--secondary');
+  [...localCol, ...social].forEach((s) => centerRow2.append(s));
+  const center = make('footer-col footer-col--center');
+  center.append(centerRow1, centerRow2);
+
+  // Right rail: newsletter + wholesale stacked
+  const rail = make('footer-col footer-col--rail');
+  [...newsletter, ...wholesale].forEach((s) => rail.append(s));
+
+  // Brand column
+  const brandCol = make('footer-col footer-col--brand');
+  brand.forEach((s) => brandCol.append(s));
+
+  // Main 3-column row
+  const main = make('footer-main');
+  main.append(brandCol, center, rail);
+
+  // Bottom legal bar (full width)
+  const bottom = make('footer-bottom');
+  legal.forEach((s) => bottom.append(s));
+
+  footer.replaceChildren(main, bottom);
+
+  // Accordion on link columns below desktop (Figma tablet + mobile).
+  const mql = window.matchMedia('(max-width: 1023px)');
   footer.querySelectorAll('.section.footer-links').forEach((col) => {
     const heading = col.querySelector('h3, h2, h4');
     const list = col.querySelector('ul');
@@ -244,7 +274,9 @@ function decorateFooterLayout(footer) {
       col.classList.toggle('footer-links--expanded', expanded);
       heading.setAttribute('aria-expanded', expanded ? 'true' : 'false');
     };
-    setExpanded(!mql.matches);
+    // Desktop: always open. Below desktop: first column open, rest closed.
+    const isFirst = col === document.querySelector('.section.footer-links');
+    setExpanded(!mql.matches || isFirst);
 
     const toggle = () => {
       if (!mql.matches) return;
@@ -257,6 +289,6 @@ function decorateFooterLayout(footer) {
         toggle();
       }
     });
-    mql.addEventListener('change', () => setExpanded(!mql.matches));
+    mql.addEventListener('change', () => setExpanded(!mql.matches || isFirst));
   });
 }

@@ -5,9 +5,10 @@ footer {
 }
 
 footer .footer > div {
+    box-sizing: border-box;
     margin: auto;
     max-width: 1280px;
-    padding: var(--gs-spacing-96) var(--gs-grid-desktop-margin) var(--gs-spacing-24);
+    padding: 48px 56px;
 }
 
 footer .footer p {
@@ -67,24 +68,14 @@ footer .footer p {
 }
 
 /* ==========================================================================
-   Girl Scouts footer branding — 3 stacked rows (top / mid / bottom).
-   Sections are grouped into .footer-row wrappers by footer.js.
+   Girl Scouts footer — px-to-px from Figma (node 2697:348659).
+   Desktop: brand (175px) | center (671px) | rail (274px), 24px gaps.
+   Tablet/Mobile: single column, link columns become accordions,
+   social becomes a single row, newsletter full-width.
    ========================================================================== */
 
-/* Row wrappers stack vertically; mid & bottom get a top divider */
-footer .footer .footer-row {
-    box-sizing: border-box;
-}
-
-footer .footer .footer-row--mid,
-footer .footer .footer-row--bottom {
-    border-top: var(--shape-border-width-1) solid rgb(255 255 255 / 20%);
-    margin-top: var(--gs-spacing-32);
-    padding-top: var(--gs-spacing-32);
-}
-
-/* Remove the default per-section spacing so the grid controls layout */
-footer .footer .footer-row > .section {
+/* Reset default per-section spacing; layout is driven by the wrappers. */
+footer .footer .section {
     margin: 0;
     padding: 0;
 }
@@ -95,7 +86,7 @@ footer .footer h3,
 footer .footer h4 {
     font: var(--gs-type-body-medium-strong);
     color: var(--gs-color-white);
-    margin: 0 0 var(--gs-spacing-16);
+    margin: 0 0 24px;
 }
 
 /* Link lists */
@@ -105,7 +96,7 @@ footer .footer .footer-links ul {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--gs-spacing-16);
+    gap: 24px;
 }
 
 footer .footer a {
@@ -119,30 +110,76 @@ footer .footer a:hover {
     text-decoration: underline;
 }
 
-/* Brand column */
+/* Brand logo */
 footer .footer .footer-brand a {
-    font: var(--gs-type-subheading-gs);
+    display: inline-block;
     color: var(--gs-color-white);
 }
 
-/* Emphasized link text in wholesale + legal columns */
-footer .footer .footer-wholesale a,
-footer .footer .footer-legal a {
+footer .footer .footer-brand svg,
+footer .footer .footer-brand img {
+    width: 160px;
+    height: auto;
+}
+
+/* Emphasized wholesale link */
+footer .footer .footer-wholesale a {
     font: var(--gs-type-body-medium-strong);
 }
 
-footer .footer .footer-legal a {
-    font: var(--gs-type-body-small);
+/* ---- Desktop layout: brand | center | rail ---- */
+footer .footer .footer-main {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
 }
 
-/* Social icons — 2 rows of 3 */
+footer .footer .footer-col--brand {
+    flex: 0 0 175px;
+}
+
+footer .footer .footer-col--center {
+    flex: 0 0 671px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Center column has two sub-rows split by a divider */
+footer .footer .footer-center-row {
+    display: flex;
+    gap: 24px;
+}
+
+footer .footer .footer-center-row--primary > .section {
+    flex: 1 1 0;
+}
+
+footer .footer .footer-center-row--secondary {
+    border-top: var(--shape-border-width-1) solid rgb(255 255 255 / 20%);
+    margin-top: 24px;
+    padding-top: 24px;
+}
+
+footer .footer .footer-center-row--secondary > .section {
+    flex: 1 1 0;
+}
+
+footer .footer .footer-col--rail {
+    flex: 0 0 274px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Social icons — wrap to 2 rows of 3 within the 671px center width */
 footer .footer .footer-social ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: grid;
-    grid-template-columns: repeat(3, max-content);
-    gap: var(--gs-spacing-16);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    max-width: 160px;
 }
 
 footer .footer .footer-social a {
@@ -169,11 +206,11 @@ footer .footer .footer-social svg {
     fill: currentcolor;
 }
 
-/* Newsletter card — teal, image on top, text below */
+/* Newsletter card — photo on top, deep-cyan text band below */
 footer .footer .footer-newsletter {
     border-radius: var(--shape-border-radius-2);
     overflow: hidden;
-    background-color: var(--gs-color-teal);
+    background-color: var(--gs-color-deep-cyan);
 }
 
 footer .footer .footer-newsletter img {
@@ -183,19 +220,19 @@ footer .footer .footer-newsletter img {
 }
 
 footer .footer .footer-newsletter h3 {
-    margin: 0 0 var(--gs-spacing-8);
+    margin: 0 0 8px;
 }
 
 footer .footer .footer-newsletter > *:not(img) {
-    padding-inline: var(--gs-spacing-16);
+    padding-inline: 16px;
 }
 
 footer .footer .footer-newsletter > *:not(img):first-child {
-    padding-top: var(--gs-spacing-16);
+    padding-top: 16px;
 }
 
 footer .footer .footer-newsletter > *:not(img):last-child {
-    padding-bottom: var(--gs-spacing-16);
+    padding-bottom: 16px;
 }
 
 footer .footer .footer-newsletter p {
@@ -204,7 +241,7 @@ footer .footer .footer-newsletter p {
 
 footer .footer .footer-newsletter a.button {
     display: inline-block;
-    margin: var(--gs-spacing-16) 0 0;
+    margin: 16px 0 0;
     padding: 0;
     border: 0;
     background: transparent;
@@ -213,18 +250,24 @@ footer .footer .footer-newsletter a.button {
     text-transform: uppercase;
 }
 
-/* Wholesale partners — transparent bordered card */
+/* Wholesale partners — transparent card with gold border */
 footer .footer .footer-wholesale {
-    border: var(--shape-border-width-1) solid rgb(255 255 255 / 40%);
+    border: var(--shape-border-width-1) solid var(--gs-color-gold);
     border-radius: var(--shape-border-radius-2);
-    padding: var(--gs-spacing-24);
+    padding: 24px;
 }
 
-/* Bottom bar — legal links + copyright */
-footer .footer .footer-row--bottom .footer-legal {
+/* Bottom legal bar — full-width divider above */
+footer .footer .footer-bottom {
+    border-top: var(--shape-border-width-1) solid rgb(255 255 255 / 20%);
+    margin-top: 24px;
+    padding-top: 24px;
+}
+
+footer .footer .footer-bottom .footer-legal {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--gs-spacing-16);
+    gap: 24px;
     align-items: center;
     justify-content: space-between;
 }
@@ -232,7 +275,7 @@ footer .footer .footer-row--bottom .footer-legal {
 footer .footer .footer-legal > p:first-child {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--gs-spacing-16);
+    gap: 24px;
 }
 
 footer .footer .footer-legal > p:last-child {
@@ -240,8 +283,37 @@ footer .footer .footer-legal > p:last-child {
     text-transform: uppercase;
 }
 
-/* --- Mobile (< 768px): single column, accordion link lists --- */
-@media (max-width: 767px) {
+/* ---- Tablet + Mobile (< 1024px): single column, accordions ---- */
+@media (max-width: 1023px) {
+    footer .footer .footer-main {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    footer .footer .footer-col--brand,
+    footer .footer .footer-col--center,
+    footer .footer .footer-col--rail {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    footer .footer .footer-col--brand {
+        margin-bottom: 24px;
+    }
+
+    /* Stack the center sub-rows; columns go full width */
+    footer .footer .footer-center-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    footer .footer .footer-center-row--secondary {
+        border-top: 0;
+        margin-top: 0;
+        padding-top: 0;
+    }
+
+    /* Accordion link columns */
     footer .footer .footer-links ul {
         overflow: hidden;
         max-height: 0;
@@ -251,8 +323,8 @@ footer .footer .footer-legal > p:last-child {
 
     footer .footer .footer-links.footer-links--expanded ul {
         max-height: 600px;
-        gap: var(--gs-spacing-16);
-        margin-top: var(--gs-spacing-16);
+        gap: 24px;
+        margin: 24px 0;
     }
 
     footer .footer .footer-links h3 {
@@ -261,7 +333,7 @@ footer .footer .footer-legal > p:last-child {
         justify-content: space-between;
         align-items: center;
         margin: 0;
-        padding: var(--gs-spacing-16) 0;
+        padding: 24px 0;
         border-bottom: var(--shape-border-width-1) solid rgb(255 255 255 / 20%);
     }
 
@@ -275,42 +347,24 @@ footer .footer .footer-legal > p:last-child {
         transform: rotate(-90deg);
     }
 
-    footer .footer .footer-row--bottom .footer-legal {
+    /* Social: single row of 6 */
+    footer .footer .footer-social {
+        margin-top: 24px;
+    }
+
+    footer .footer .footer-social.footer-social ul {
+        max-width: none;
+        gap: 32px;
+    }
+
+    /* Newsletter + wholesale full width, stacked */
+    footer .footer .footer-col--rail {
+        margin-top: 24px;
+    }
+
+    footer .footer .footer-bottom .footer-legal {
         flex-direction: column;
         align-items: flex-start;
-        gap: var(--gs-spacing-16);
-    }
-}
-
-/* --- Tablet (768–1279px): 3-col top row, newsletter full-width below --- */
-@media (min-width: 768px) {
-    footer .footer .footer-row--top {
-        display: grid;
-        grid-template-columns: auto repeat(3, 1fr);
-        gap: var(--gs-spacing-32);
-        align-items: start;
-    }
-
-    footer .footer .footer-row--top .footer-newsletter {
-        grid-column: 1 / -1;
-    }
-
-    footer .footer .footer-row--mid {
-        display: grid;
-        grid-template-columns: 1fr 1fr minmax(280px, 1fr);
-        gap: var(--gs-spacing-32);
-        align-items: start;
-    }
-}
-
-/* --- Desktop (≥ 1280px): 5-col top row, newsletter in last column --- */
-@media (min-width: 1280px) {
-    footer .footer .footer-row--top {
-        grid-template-columns: auto repeat(3, 1fr) minmax(300px, 1fr);
-        gap: var(--gs-spacing-64);
-    }
-
-    footer .footer .footer-row--top .footer-newsletter {
-        grid-column: auto;
+        gap: 24px;
     }
 }

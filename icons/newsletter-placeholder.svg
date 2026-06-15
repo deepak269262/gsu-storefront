@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" role="img" aria-label="Girl Scout and parent">
+  <rect width="400" height="220" fill="#0a6b53"/>
+  <rect width="400" height="220" fill="url(#g)"/>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a8a6e"/>
+      <stop offset="1" stop-color="#044e3b"/>
+    </linearGradient>
+  </defs>
+  <!-- two simple figures -->
+  <g fill="#ffffff" opacity="0.85">
+    <circle cx="150" cy="95" r="34"/>
+    <path d="M96 220c0-38 24-66 54-66s54 28 54 66Z"/>
+    <circle cx="238" cy="120" r="26"/>
+    <path d="M196 220c0-30 19-52 42-52s42 22 42 52Z"/>
+  </g>
+  <rect width="400" height="220" fill="#00b451" opacity="0.06"/>
+</svg>
